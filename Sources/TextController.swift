@@ -19,28 +19,6 @@ import X
 
 typealias Style = (range: NSRange, attributes: Attributes)
 
-public protocol TextControllerConnectionDelegate: class {
-	func textController(textController: TextController, willConnectWithWebView webView: WKWebView)
-	func textControllerDidConnect(textController: TextController)
-	func textController(textController: TextController, didReceiveWebErrorMessage errorMessage: String?, lineNumber: UInt?, columnNumber: UInt?)
-	func textController(textController: TextController, didDisconnectWithErrorMessage errorMessage: String?)
-}
-
-public protocol TextControllerDisplayDelegate: class {
-	func textController(textController: TextController, didUpdateSelectedRange selectedRange: NSRange)
-	func textController(textController: TextController, didUpdateTitle title: String?)
-	func textControllerWillProcessRemoteEdit(textController: TextController)
-	func textControllerDidProcessRemoteEdit(textController: TextController)
-	func textController(textController: TextController, URLForImage block: CanvasNative.Image) -> NSURL?
-	func textControllerDidUpdateFolding(textController: TextController)
-}
-
-public protocol TextControllerAnnotationDelegate: class {
-	func textController(textController: TextController, willAddAnnotation annotation: Annotation)
-	func textController(textController: TextController, willRemoveAnnotation annotation: Annotation)
-}
-
-
 public final class TextController: NSObject {
 
 	// MARK: - Properties
@@ -430,6 +408,12 @@ public final class TextController: NSObject {
 		return (styles, foldableRanges)
 	}
 
+	private func submitOperations(edits edits: [Edit]) {
+		for edit in edits {
+			submitOperations(backingRange: edit.range, string: edit.string)
+		}
+	}
+
 	private func submitOperations(backingRange backingRange: NSRange, string: String) {
 		guard let transportController = transportController else {
 			print("[TextController] WARNING: Tried to submit an operation without a connection.")
@@ -698,115 +682,20 @@ extension TextController: AnnotationsControllerDelegate {
 
 extension TextController: CanvasTextStorageDelegate, NSTextStorageDelegate {
 	public func canvasTextStorage(textStorage: CanvasTextStorage, willReplaceCharactersInRange range: NSRange, withString string: String) {
-		let document = currentDocument
-		var presentationRange = range
+		// Create edit
+		let presentationEdit: Edit = (range: range, string: string)
 
-		let backingRanges = document.backingRanges(presentationRange: presentationRange)
-		var backingRange = backingRanges[0]
-		var replacement = string
+		// Calculate edits
+		let (edits, selection) = currentDocument.backingEdits(presentationEdit: presentationEdit, presentationSelection: presentationSelectedRange)
 
-		// Return completion
-		if string == "\n" {
-			let currentBlock = document.blockAt(backingLocation: backingRange.location)
+		// Apply local edits to the backing document
+		documentController.apply(backingEdits: edits)
 
-			// Check inside paragraphs
-			if let block = currentBlock as? Paragraph {
-				let string = document.presentationString(block: block)
+		// Send OT operations for edits
+		submitOperations(edits: edits)
 
-				// Image
-				if let url = NSURL(string: string) where url.isImageURL {
-					backingRange = block.range
-					replacement = Image.nativeRepresentation(URL: url) + "\n"
-				}
-
-				// Code block
-				else if string.hasPrefix("```") {
-					let language = (string as NSString).substringFromIndex(3).stringByTrimmingCharactersInSet(.whitespaceCharacterSet())
-					backingRange = block.range
-					replacement = CodeBlock.nativeRepresentation(language: language)
-				}
-			}
-
-			// Continue the previous node
-			else if let block = currentBlock as? ReturnCompletable {
-				// Bust out of completion
-				if block.visibleRange.length == 0 {
-					backingRange = block.range
-					replacement = ""
-
-					// Keep selection in place
-					setPresentationSelectedRange(presentationSelectedRange, updateTextView: true)
-				} else {
-					// Complete the node
-					if let block = block as? NativePrefixable {
-						replacement += (document.backingString as NSString).substringWithRange(block.nativePrefixRange)
-
-						// Make checkboxes unchecked by default
-						if let checklist = block as? ChecklistItem where checklist.state == .checked {
-							replacement = replacement.stringByReplacingOccurrencesOfString("- [x] ", withString: "- [ ] ")
-						}
-					}
-				}
-			}
-		}
-
-		// Handle inserts around attachments
-		else if !replacement.isEmpty {
-			if let block = document.blockAt(presentationLocation: range.location) as? Attachable {
-				let presentation = document.presentationRange(block: block)
-
-				// Add a new line before edits immediately following an Attachable
-				if range.location == presentation.max {
-					replacement = "\n" + replacement
-				}
-
-				// Add a new line after edits immediately before an Attachable {
-				else if range.location == presentationRange.location {
-					presentationRange.location -= 1
-					
-					// FIXME: Update to support inline markers
-					backingRange = document.backingRanges(presentationRange: presentationRange)[0]
-					replacement = "\n" + replacement
-				}
-			}
-
-			// FIXME: Handle a replacement of the new line before the attachment
-		}
-
-		edit(backingRange: backingRange, replacement: replacement)
-
-		// Remove other backing ranges
-		if backingRanges.count > 1 {
-			var ranges = backingRanges
-			ranges.removeAtIndex(0)
-
-			var offset = replacement.isEmpty ? backingRange.length : 0
-
-			for r in ranges {
-				if backingRange.intersection(r) != nil {
-					continue
-				}
-
-				var range = r
-				range.location -= offset
-				edit(backingRange: range, replacement: "")
-
-				offset += range.length
-			}
-		}
-
-		backingRange.length = (replacement as NSString).length
-		presentationRange = document.presentationRange(backingRange: backingRange)
-		processMarkdownShortcuts(presentationRange)
-
-		// Handle selection when there is a user-driven replacement. This could definitely be cleaner.
-		dispatch_async(dispatch_get_main_queue()) { [weak self] in
-			if var selection = self?.presentationSelectedRange where selection.length > 0 {
-				selection.location += (string as NSString).length
-				selection.length = 0
-				self?.setPresentationSelectedRange(selection, updateTextView: true)
-			}
-		}
+		// Update selection
+		presentationSelectedRange = selection
 	}
 	
 	public func textStorage(textStorage: NSTextStorage, didProcessEditing editedMask: NSTextStorageEditActions, range editedRange: NSRange, changeInLength delta: Int) {
@@ -815,6 +704,9 @@ extension TextController: CanvasTextStorageDelegate, NSTextStorageDelegate {
 		}
 
 		updateUnfoldIfNeeded()
+
+		// Update selection
+		setPresentationSelectedRange(presentationSelectedRange, updateTextView: true)
 
 		dispatch_async(dispatch_get_main_queue()) { [weak self] in
 			self?.refreshAnnotations()
