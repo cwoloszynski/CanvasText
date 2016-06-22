@@ -544,7 +544,7 @@ extension TextController: TransportControllerDelegate {
 
 		setNeedsTitleUpdate()
 		displayDelegate?.textControllerWillProcessRemoteEdit(self)
-		documentController.replaceCharactersInRange(bounds, withString: string)
+		documentController.replaceCharacters(inBackingRange: bounds, withString: string)
 		connectionDelegate?.textControllerDidConnect(self)
 		displayDelegate?.textControllerDidProcessRemoteEdit(self)
 		
@@ -558,11 +558,11 @@ extension TextController: TransportControllerDelegate {
 		switch operation {
 		case .insert(let location, let string):
 			let range = NSRange(location: Int(location), length: 0)
-			documentController.replaceCharactersInRange(range, withString: string)
+			documentController.replaceCharacters(inBackingRange: range, withString: string)
 
 		case .remove(let location, let length):
 			let range = NSRange(location: Int(location), length: Int(length))
-			documentController.replaceCharactersInRange(range, withString: "")
+			documentController.replaceCharacters(inBackingRange: range, withString: "")
 		}
 
 		displayDelegate?.textControllerDidProcessRemoteEdit(self)
@@ -683,19 +683,16 @@ extension TextController: AnnotationsControllerDelegate {
 extension TextController: CanvasTextStorageDelegate, NSTextStorageDelegate {
 	public func canvasTextStorage(textStorage: CanvasTextStorage, willReplaceCharactersInRange range: NSRange, withString string: String) {
 		// Create edit
-		let presentationEdit: Edit = (range: range, string: string)
+		let presentationEdit = Edit(range: range, string: string)
 
 		// Calculate edits
-		let (edits, selection) = currentDocument.backingEdits(presentationEdit: presentationEdit, presentationSelection: presentationSelectedRange)
+		let edits = currentDocument.backingEdits(presentationEdit: presentationEdit)
 
 		// Apply local edits to the backing document
 		documentController.apply(backingEdits: edits)
 
 		// Send OT operations for edits
 		submitOperations(edits: edits)
-
-		// Update selection
-		presentationSelectedRange = selection
 	}
 	
 	public func textStorage(textStorage: NSTextStorage, didProcessEditing editedMask: NSTextStorageEditActions, range editedRange: NSRange, changeInLength delta: Int) {
@@ -718,7 +715,7 @@ extension TextController: CanvasTextStorageDelegate, NSTextStorageDelegate {
 	// by the text storage delegate or changes made to non-visible portions of the backing string (like block or
 	// indentation changes).
 	func edit(backingRange backingRange: NSRange, replacement: String) {
-		documentController.replaceCharactersInRange(backingRange, withString: replacement)
+		documentController.replaceCharacters(inBackingRange: backingRange, withString: replacement)
 		submitOperations(backingRange: backingRange, string: replacement)
 	}
 }

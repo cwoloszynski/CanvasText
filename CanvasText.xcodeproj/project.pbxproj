@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		210B4EAD1CD94E2A006E3C11 /* TextController+Gestures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210B4EAC1CD94E2A006E3C11 /* TextController+Gestures.swift */; };
 		211483CF1C8A3034002CA206 /* CanvasText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 211483C41C8A3034002CA206 /* CanvasText.framework */; };
-		2122BFD81CFE35EB00A038DE /* NSURL+CanvasText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2122BFD71CFE35EB00A038DE /* NSURL+CanvasText.swift */; };
 		2138C2CF1C97228100D93FF4 /* NumberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2138C2CE1C97228100D93FF4 /* NumberView.swift */; };
 		2138C2D11C9722DF00D93FF4 /* OrderedListItem+CanvasText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2138C2D01C9722DF00D93FF4 /* OrderedListItem+CanvasText.swift */; };
 		214F9FF31CC6B2E400927A07 /* TextController+Actions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 214F9FF21CC6B2E400927A07 /* TextController+Actions.swift */; };
@@ -53,7 +52,6 @@
 		218944C91CFFA090003F743B /* UserInterfaceSizeClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21AD8C251C8A430B000A53F8 /* UserInterfaceSizeClass.swift */; };
 		218944CA1CFFA096003F743B /* NSRange+CanvasText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21AD8D0B1C8A496B000A53F8 /* NSRange+CanvasText.swift */; };
 		218944D01CFFA096003F743B /* Listable+CanvasText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 214F9FF41CC6C9EC00927A07 /* Listable+CanvasText.swift */; };
-		218944D11CFFA096003F743B /* NSURL+CanvasText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2122BFD71CFE35EB00A038DE /* NSURL+CanvasText.swift */; };
 		2193DC5F1D07A776004D8D0C /* Theme+Default.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2193DC5E1D07A776004D8D0C /* Theme+Default.swift */; };
 		2193DC601D07A776004D8D0C /* Theme+Default.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2193DC5E1D07A776004D8D0C /* Theme+Default.swift */; };
 		219CBD5A1D19EF7D0039C794 /* TextControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 219CBD591D19EF7D0039C794 /* TextControllerDelegate.swift */; };
@@ -153,7 +151,6 @@
 		210B4EAC1CD94E2A006E3C11 /* TextController+Gestures.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TextController+Gestures.swift"; sourceTree = "<group>"; };
 		211483C41C8A3034002CA206 /* CanvasText.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CanvasText.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		211483CE1C8A3034002CA206 /* CanvasTextTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CanvasTextTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		2122BFD71CFE35EB00A038DE /* NSURL+CanvasText.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSURL+CanvasText.swift"; sourceTree = "<group>"; };
 		2138C2CE1C97228100D93FF4 /* NumberView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumberView.swift; sourceTree = "<group>"; };
 		2138C2D01C9722DF00D93FF4 /* OrderedListItem+CanvasText.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OrderedListItem+CanvasText.swift"; sourceTree = "<group>"; };
 		214F9FF21CC6B2E400927A07 /* TextController+Actions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TextController+Actions.swift"; sourceTree = "<group>"; };
@@ -373,7 +370,6 @@
 				21DF7A401C8F9C2A00C17A62 /* ChecklistItem+CanvasText.swift */,
 				21DF7A4B1C8FA3A300C17A62 /* CodeBlock+CanvasText.swift */,
 				214F9FF41CC6C9EC00927A07 /* Listable+CanvasText.swift */,
-				2122BFD71CFE35EB00A038DE /* NSURL+CanvasText.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -611,7 +607,6 @@
 				21AD8D071C8A48EA000A53F8 /* TextContainer.swift in Sources */,
 				2166E30A1D14B18E00470366 /* CanvasTextStorage.m in Sources */,
 				21DF7A3B1C8F9ADA00C17A62 /* Annotatable.swift in Sources */,
-				2122BFD81CFE35EB00A038DE /* NSURL+CanvasText.swift in Sources */,
 				21E1D9E61C8DF6B800283961 /* Themeable.swift in Sources */,
 				21DF7A3D1C8F9B5200C17A62 /* UnorderedListItem+CanvasText.swift in Sources */,
 				21DF7A421C8FA08300C17A62 /* BlockquoteBorderView.swift in Sources */,
@@ -672,7 +667,6 @@
 				218944BC1CFFA08A003F743B /* Annotatable.swift in Sources */,
 				218944BB1CFFA08A003F743B /* AnnotationsController.swift in Sources */,
 				2166E30B1D14B18E00470366 /* CanvasTextStorage.m in Sources */,
-				218944D11CFFA096003F743B /* NSURL+CanvasText.swift in Sources */,
 				218944B51CFFA081003F743B /* LayoutManager.swift in Sources */,
 				219CBD5B1D19EF7D0039C794 /* TextControllerDelegate.swift in Sources */,
 				218944B71CFFA084003F743B /* BlockSpacing.swift in Sources */,
