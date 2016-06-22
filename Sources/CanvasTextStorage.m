@@ -27,13 +27,13 @@
 // MARK: - NSTextStorage
 
 - (void)beginEditing {
-	[super beginEditing];
 	self.editCount += 1;
+	[super beginEditing];
 }
 
 - (void)endEditing {
-	[super endEditing];
 	self.editCount -= 1;
+	[super endEditing];
 }
 
 - (void)replaceCharactersInRange:(NSRange)range withString:(NSString *)aString {

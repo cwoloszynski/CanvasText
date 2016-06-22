@@ -112,6 +112,7 @@ public final class TextController: NSObject {
 	private var needsUnfoldUpdate = false
 	private var styles = [Style]()
 	private var invalidDisplayRange: NSRange?
+	private var nextSelection: NSRange?
 
 
 	// MARK: - Initializers
@@ -686,7 +687,10 @@ extension TextController: CanvasTextStorageDelegate, NSTextStorageDelegate {
 		let presentationEdit = Edit(range: range, string: string)
 
 		// Calculate edits
-		let edits = currentDocument.backingEdits(presentationEdit: presentationEdit)
+		let (edits, selection) = currentDocument.backingEdits(presentationEdit: presentationEdit, presentationSelection: presentationSelectedRange)
+
+		// Apply the modified selection after the text storage finishes editing.
+		nextSelection = selection
 
 		// Apply local edits to the backing document
 		documentController.apply(backingEdits: edits)
@@ -703,7 +707,10 @@ extension TextController: CanvasTextStorageDelegate, NSTextStorageDelegate {
 		updateUnfoldIfNeeded()
 
 		// Update selection
-		setPresentationSelectedRange(presentationSelectedRange, updateTextView: true)
+		if let selection = nextSelection {
+			setPresentationSelectedRange(selection, updateTextView: true)
+			nextSelection = nil
+		}
 
 		dispatch_async(dispatch_get_main_queue()) { [weak self] in
 			self?.refreshAnnotations()
