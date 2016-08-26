@@ -17,11 +17,11 @@ import X
 
 extension Theme {
 	public var fontSize: CGFloat {
-		return UIFont.preferredFontForTextStyle(UIFontTextStyleBody).pointSize
+		return TextStyle.body.font().pointSize
 	}
 
 	private var listIndentation: CGFloat {
-		let font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
+		let font = TextStyle.body.font()
 		return ("      " as NSString).sizeWithAttributes([NSFontAttributeName: font]).width
 	}
 
@@ -35,7 +35,7 @@ extension Theme {
 	public var titleAttributes: Attributes {
 		var attributes = baseAttributes
 		attributes[NSForegroundColorAttributeName] = foregroundColor
-		attributes[NSFontAttributeName] = TextStyle.title1.font(weight: .semibold)
+		attributes[NSFontAttributeName] = TextStyle.title1.font(minimumWeight: .semibold)
 		return attributes
 	}
 
@@ -127,22 +127,22 @@ extension Theme {
 			switch heading.level {
 			case .one:
 				attributes[NSForegroundColorAttributeName] = headingOneColor
-				attributes[NSFontAttributeName] = TextStyle.title1.font(weight: .medium)
+				attributes[NSFontAttributeName] = TextStyle.title1.font(minimumWeight: .medium)
 			case .two:
 				attributes[NSForegroundColorAttributeName] = headingTwoColor
-				attributes[NSFontAttributeName] = TextStyle.title2.font(weight: .medium)
+				attributes[NSFontAttributeName] = TextStyle.title2.font(minimumWeight: .medium)
 			case .three:
 				attributes[NSForegroundColorAttributeName] = headingThreeColor
-				attributes[NSFontAttributeName] = TextStyle.title3.font(weight: .medium)
+				attributes[NSFontAttributeName] = TextStyle.title3.font(minimumWeight: .medium)
 			case .four:
 				attributes[NSForegroundColorAttributeName] = headingFourColor
-				attributes[NSFontAttributeName] = TextStyle.headline.font(weight: .medium)
+				attributes[NSFontAttributeName] = TextStyle.headline.font(minimumWeight: .medium)
 			case .five:
 				attributes[NSForegroundColorAttributeName] = headingFiveColor
-				attributes[NSFontAttributeName] = TextStyle.headline.font(weight: .medium)
+				attributes[NSFontAttributeName] = TextStyle.headline.font(minimumWeight: .medium)
 			case .six:
 				attributes[NSForegroundColorAttributeName] = headingSixColor
-				attributes[NSFontAttributeName] = TextStyle.headline.font(weight: .medium)
+				attributes[NSFontAttributeName] = TextStyle.headline.font(minimumWeight: .medium)
 			}
 		}
 
@@ -169,7 +169,7 @@ extension Theme {
 		var attributes = parentAttributes
 
 		if span is CodeSpan {
-			let monoSpaceFont = UIFont(name: "Menlo", size: currentFont.pointSize * 0.9)!
+			let monoSpaceFont = Font(name: "Menlo", size: currentFont.pointSize * 0.9)!
 			let font = applySymbolicTraits(traits, toFont: monoSpaceFont)
 			attributes[NSFontAttributeName] = font
 			attributes[NSForegroundColorAttributeName] = codeSpanColor

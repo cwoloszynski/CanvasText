@@ -6,13 +6,13 @@
 //  Copyright © 2016 Canvas Labs, Inc. All rights reserved.
 //
 
-import UIKit
+import X
 
 struct HorizontalRuleAttachment {
 	
 	static let height: CGFloat = 19
 	
-	static func image(theme theme: Theme) -> UIImage? {
+	static func image(theme theme: Theme) -> Image? {
 		let width: CGFloat = 1
 
 		// Create context
@@ -20,7 +20,7 @@ struct HorizontalRuleAttachment {
 		let context = CGBitmapContextCreate(nil, Int(width), Int(height), 8, 0, CGColorSpaceCreateDeviceRGB(), bitmapInfo)
 
 		// Background
-		CGContextSetFillColorWithColor(context, UIColor.whiteColor().CGColor)
+		CGContextSetFillColorWithColor(context, Color.whiteColor().CGColor)
 		CGContextFillRect(context, CGRect(x: 0, y: 0, width: width, height: height))
 		
 		// Line
@@ -29,7 +29,7 @@ struct HorizontalRuleAttachment {
 		
 		// Create image
 		guard let cgImage = CGBitmapContextCreateImage(context) else { return nil }
-		let image = UIImage(CGImage: cgImage)
+		let image = Image(CGImage: cgImage)
 		
 		// Return image
 		return image
