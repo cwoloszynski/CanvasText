@@ -1,5 +1,5 @@
 github "soffes/Cache" "v0.1.0"
 github "soffes/Diff" "v0.1.2"
 github "usecanvas/OperationalTransformation" "v0.1.1"
-github "soffes/X" "db506fc04d9dc6bbace89406ab835b46df8592e0"
+github "soffes/X" "539075c10a008aa78ac8a04433d7b90dd181dbe7"
 github "usecanvas/CanvasNative" "v0.1.2"
