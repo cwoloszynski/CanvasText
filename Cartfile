@@ -1,4 +1,4 @@
-github "usecanvas/OperationalTransformation"
-github "usecanvas/CanvasNative"
-github "soffes/Cache"
-github "soffes/X" "dynamic-type"
+github "usecanvas/OperationalTransformation" "swift3"
+github "usecanvas/CanvasNative" "swift3"
+github "soffes/Cache" "swift3"
+github "soffes/X" "swift3"

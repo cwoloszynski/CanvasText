@@ -15,7 +15,7 @@
 import CanvasNative
 import X
 
-public typealias Attributes = [String: AnyObject]
+public typealias Attributes = [String: Any]
 
 public protocol Theme {
 
@@ -126,7 +126,7 @@ public protocol Theme {
 	///
 	/// - parameter block: Block node to style
 	/// - returns: Attributes for given block
-	func attributes(block block: BlockNode) -> Attributes
+	func attributes(block: BlockNode) -> Attributes
 
 	/// Attributes for a span
 	///
@@ -135,7 +135,7 @@ public protocol Theme {
 	/// - parameter block: Span node to style
 	/// - parameter parentAttributes: Attributes of the parent node
 	/// - returns: Attributes for given block
-	func attributes(span span: SpanNode, parentAttributes: Attributes) -> Attributes?
+	func attributes(span: SpanNode, parentAttributes: Attributes) -> Attributes?
 
 	/// Attributes for a folded range.
 	///
@@ -143,12 +143,12 @@ public protocol Theme {
 	///
 	/// - parameter parentAttributes: Attributes of the parent node
 	/// - returns: Attributes for given block
-	func foldingAttributes(parentAttributes parentAttributes: Attributes) -> Attributes
+	func foldingAttributes(parentAttributes: Attributes) -> Attributes
 
 	/// Calculate spacing for a given block.
 	///
 	/// - parameter block: Block to layout
 	/// - parameter horizontalSizeClass: Horizontal size class
 	/// - returns: Spacing for a given block
-	func blockSpacing(block block: BlockNode, horizontalSizeClass: UserInterfaceSizeClass) -> BlockSpacing
+	func blockSpacing(block: BlockNode, horizontalSizeClass: UserInterfaceSizeClass) -> BlockSpacing
 }

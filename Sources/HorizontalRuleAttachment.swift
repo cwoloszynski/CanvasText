@@ -12,24 +12,24 @@ struct HorizontalRuleAttachment {
 	
 	static let height: CGFloat = 19
 	
-	static func image(theme theme: Theme) -> Image? {
+	static func image(theme: Theme) -> Image? {
 		let width: CGFloat = 1
 
 		// Create context
-		let bitmapInfo = CGBitmapInfo(rawValue: CGImageAlphaInfo.PremultipliedLast.rawValue).rawValue
-		let context = CGBitmapContextCreate(nil, Int(width), Int(height), 8, 0, CGColorSpaceCreateDeviceRGB(), bitmapInfo)
+		let bitmapInfo = CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedLast.rawValue).rawValue
+		let context = CGContext(data: nil, width: Int(width), height: Int(height), bitsPerComponent: 8, bytesPerRow: 0, space: CGColorSpaceCreateDeviceRGB(), bitmapInfo: bitmapInfo)
 
 		// Background
-		CGContextSetFillColorWithColor(context, Color.whiteColor().CGColor)
-		CGContextFillRect(context, CGRect(x: 0, y: 0, width: width, height: height))
+		context?.setFillColor(Color.white.cgColor)
+		context?.fill(CGRect(x: 0, y: 0, width: width, height: height))
 		
 		// Line
-		CGContextSetFillColorWithColor(context, theme.horizontalRuleColor.CGColor)
-		CGContextFillRect(context, CGRect(x: 0, y: ((height - 1) / 2) - 2, width: width, height: 1))
+		context?.setFillColor(theme.horizontalRuleColor.cgColor)
+		context?.fill(CGRect(x: 0, y: ((height - 1) / 2) - 2, width: width, height: 1))
 		
 		// Create image
-		guard let cgImage = CGBitmapContextCreateImage(context) else { return nil }
-		let image = Image(CGImage: cgImage)
+		guard let cgImage = context?.makeImage() else { return nil }
+		let image = Image(cgImage: cgImage)
 		
 		// Return image
 		return image

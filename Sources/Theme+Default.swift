@@ -17,39 +17,47 @@ import X
 
 extension Theme {
 	public var fontSize: CGFloat {
-		return TextStyle.body.font().pointSize
+		return FontTextStyle.body.font().pointSize
 	}
 
-	private var listIndentation: CGFloat {
-		let font = TextStyle.body.font()
-		return ("      " as NSString).sizeWithAttributes([NSFontAttributeName: font]).width
+	fileprivate var listIndentation: CGFloat {
+		let font = FontTextStyle.body.font()
+		let string = "      " as NSString
+
+		#if os(iOS) || os(tvOS) || os(watchOS)
+			let size = string.size(attributes: [NSFontAttributeName: font])
+		#else
+			let size = string.size(withAttributes: [NSFontAttributeName: font])
+		#endif
+
+		return size.width
 	}
 
 	public var baseAttributes: Attributes {
 		return [
 			NSForegroundColorAttributeName: foregroundColor,
-			NSFontAttributeName: TextStyle.body.font()
+			NSFontAttributeName: FontTextStyle.body.font()
 		]
 	}
 
 	public var titleAttributes: Attributes {
 		var attributes = baseAttributes
 		attributes[NSForegroundColorAttributeName] = foregroundColor
-		attributes[NSFontAttributeName] = TextStyle.title1.font(minimumWeight: .semibold)
+		attributes[NSFontAttributeName] = FontTextStyle.title1.font(minimumWeight: .semibold)
 		return attributes
 	}
 
-	public func foldingAttributes(parentAttributes parentAttributes: Attributes) -> Attributes {
+	public func foldingAttributes(parentAttributes: Attributes) -> Attributes {
 		var attributes = parentAttributes
 		attributes[NSForegroundColorAttributeName] = foldedColor
 		return attributes
 	}
 
-	public func blockSpacing(block block: BlockNode, horizontalSizeClass: UserInterfaceSizeClass) -> BlockSpacing {
+	public func blockSpacing(block: BlockNode, horizontalSizeClass: UserInterfaceSizeClass) -> BlockSpacing {
 		var spacing = BlockSpacing(marginBottom: round(fontSize * 1.5))
 
 		// No margin if it's not at the bottom of a positionable list
-		if let block = block as? Positionable where !(block is Blockquote) {
+		if let block = block as? Positionable , !(block is Blockquote) {
 			if !block.position.isBottom {
 				spacing.marginBottom = 4
 			}
@@ -87,7 +95,7 @@ extension Theme {
 			spacing.paddingLeft = padding * 2
 
 			// Indent for line numbers
-			if horizontalSizeClass == .Regular {
+			if horizontalSizeClass == .regular {
 				// TODO: Don't hard code
 				spacing.paddingLeft += 40
 			}
@@ -116,7 +124,7 @@ extension Theme {
 		return spacing
 	}
 
-	public func attributes(block block: BlockNode) -> Attributes {
+	public func attributes(block: BlockNode) -> Attributes {
 		if block is Title {
 			return titleAttributes
 		}
@@ -127,28 +135,28 @@ extension Theme {
 			switch heading.level {
 			case .one:
 				attributes[NSForegroundColorAttributeName] = headingOneColor
-				attributes[NSFontAttributeName] = TextStyle.title1.font(minimumWeight: .medium)
+				attributes[NSFontAttributeName] = FontTextStyle.title1.font(minimumWeight: .medium)
 			case .two:
 				attributes[NSForegroundColorAttributeName] = headingTwoColor
-				attributes[NSFontAttributeName] = TextStyle.title2.font(minimumWeight: .medium)
+				attributes[NSFontAttributeName] = FontTextStyle.title2.font(minimumWeight: .medium)
 			case .three:
 				attributes[NSForegroundColorAttributeName] = headingThreeColor
-				attributes[NSFontAttributeName] = TextStyle.title3.font(minimumWeight: .medium)
+				attributes[NSFontAttributeName] = FontTextStyle.title3.font(minimumWeight: .medium)
 			case .four:
 				attributes[NSForegroundColorAttributeName] = headingFourColor
-				attributes[NSFontAttributeName] = TextStyle.headline.font(minimumWeight: .medium)
+				attributes[NSFontAttributeName] = FontTextStyle.headline.font(minimumWeight: .medium)
 			case .five:
 				attributes[NSForegroundColorAttributeName] = headingFiveColor
-				attributes[NSFontAttributeName] = TextStyle.headline.font(minimumWeight: .medium)
+				attributes[NSFontAttributeName] = FontTextStyle.headline.font(minimumWeight: .medium)
 			case .six:
 				attributes[NSForegroundColorAttributeName] = headingSixColor
-				attributes[NSFontAttributeName] = TextStyle.headline.font(minimumWeight: .medium)
+				attributes[NSFontAttributeName] = FontTextStyle.headline.font(minimumWeight: .medium)
 			}
 		}
 
 		else if block is CodeBlock {
 			attributes[NSForegroundColorAttributeName] = codeColor
-			attributes[NSFontAttributeName] = TextStyle.body.monoSpaceFont()
+			attributes[NSFontAttributeName] = FontTextStyle.body.monoSpaceFont()
 
 			// Indent wrapped lines in code blocks
 			let paragraph = NSMutableParagraphStyle()
@@ -163,7 +171,7 @@ extension Theme {
 		return attributes
 	}
 
-	public func attributes(span span: SpanNode, parentAttributes: Attributes) -> Attributes? {
+	public func attributes(span: SpanNode, parentAttributes: Attributes) -> Attributes? {
 		guard let currentFont = parentAttributes[NSFontAttributeName] as? X.Font else { return nil }
 		var traits = currentFont.symbolicTraits
 		var attributes = parentAttributes
@@ -177,18 +185,18 @@ extension Theme {
 		}
 
 		else if span is Strikethrough {
-			attributes[NSStrikethroughStyleAttributeName] = NSUnderlineStyle.StyleThick.rawValue
+			attributes[NSStrikethroughStyleAttributeName] = NSUnderlineStyle.styleThick.rawValue
 			attributes[NSStrikethroughColorAttributeName] = strikethroughColor
 			attributes[NSForegroundColorAttributeName] = strikethroughColor
 		}
 
 		else if span is DoubleEmphasis {
-			traits.insert(.TraitBold)
+			traits.insert(.traitBold)
 			attributes[NSFontAttributeName] = applySymbolicTraits(traits, toFont: currentFont)
 		}
 
 		else if span is Emphasis {
-			traits.insert(.TraitItalic)
+			traits.insert(.traitItalic)
 			attributes[NSFontAttributeName] = applySymbolicTraits(traits, toFont: currentFont)
 		}
 
