@@ -27,13 +27,13 @@ final class ImagesController: Themeable {
 	var theme: Theme
 	let session: URLSession
 	
-	fileprivate var downloading = [String: [Completion]]()
+	private var downloading = [String: [Completion]]()
 	
-	fileprivate let queue = DispatchQueue(label: "com.usecanvas.canvastext.imagescontroller", attributes: [])
+	private let queue = DispatchQueue(label: "com.usecanvas.canvastext.imagescontroller", attributes: [])
 	
-	fileprivate let memoryCache = MemoryCache<Image>()
-	fileprivate let imageCache: MultiCache<Image>
-	fileprivate let placeholderCache = MemoryCache<Image>()
+	private let memoryCache = MemoryCache<Image>()
+	private let imageCache: MultiCache<Image>
+	private let placeholderCache = MemoryCache<Image>()
 	
 	
 	// MARK: - Initializers
@@ -99,11 +99,11 @@ final class ImagesController: Themeable {
 	
 	// MARK: - Private
 	
-	fileprivate func coordinate(_ block: ()->()) {
+	private func coordinate(_ block: ()->()) {
 		queue.sync(execute: block)
 	}
 	
-	fileprivate func loadImage(location: URL?, id: String) {
+	private func loadImage(location: URL?, id: String) {
 		let data = location.flatMap { (try? Data(contentsOf: $0)) }
 		let image = data.flatMap { Image(data: $0) }
 
@@ -124,42 +124,33 @@ final class ImagesController: Themeable {
 		}
 	}
 	
-	fileprivate func placeholderImage(size: CGSize, scale: CGFloat) -> Image? {
-		#if os(OSX)
-			return nil
-		#else
-			let key = "\(size.width)x\(size.height)-\(scale)-\(theme.imagePlaceholderColor)-\(theme.imagePlaceholderBackgroundColor)"
-			if let image = placeholderCache[key] {
-				return image
-			}
-
-			let bundle = Bundle(for: ImagesController.self)
-			guard let icon = Image(named: "PhotoLandscape", in: bundle) else { return nil }
-			
-			let rect = CGRect(origin: .zero, size: size)
-			
-			UIGraphicsBeginImageContextWithOptions(size, true, scale)
-			
-			// Background
-			theme.imagePlaceholderBackgroundColor.setFill()
-			UIBezierPath(rect: rect).fill()
-			
-			// Icon
-			theme.imagePlaceholderColor.setFill()
-			let iconFrame = CGRect(
-				x: (size.width - icon.size.width) / 2,
-				y: (size.height - icon.size.height) / 2,
-				width: icon.size.width,
-				height: icon.size.height
-			)
-			icon.draw(in: iconFrame)
-			
-			let image = UIGraphicsGetImageFromCurrentImageContext()
-			placeholderCache[key] = image
-			
-			UIGraphicsEndImageContext()
-			
+	private func placeholderImage(size: CGSize, scale: CGFloat) -> Image? {
+		let key = "\(size.width)x\(size.height)-\(scale)-\(theme.imagePlaceholderColor)-\(theme.imagePlaceholderBackgroundColor)"
+		if let image = placeholderCache[key] {
 			return image
-		#endif
+		}
+
+		let bundle = Bundle(for: ImagesController.self)
+		guard let icon = Image(named: "PhotoLandscape", in: bundle) else { return nil }
+		
+		let rect = CGRect(origin: .zero, size: size)
+
+		guard let context = CGContext(data: nil, width: Int(size.width * scale), height: Int(size.height * scale), bitsPerComponent: 0, bytesPerRow: 0, space: CGColorSpaceCreateDeviceRGB(), bitmapInfo: 0, releaseCallback: nil, releaseInfo: nil) else { return nil }
+
+		// Background
+		context.setFillColor(theme.imagePlaceholderBackgroundColor.cgColor)
+		context.fill(rect)
+
+		// Icon
+		context.setFillColor(theme.imagePlaceholderColor.cgColor)
+		let iconFrame = CGRect(
+			x: (size.width - icon.size.width) / 2,
+			y: (size.height - icon.size.height) / 2,
+			width: icon.size.width,
+			height: icon.size.height
+		)
+		context.draw(icon.cgImage, in: iconFrame)
+
+		return context.makeImage().flatMap(Image.init)
 	}
 }
