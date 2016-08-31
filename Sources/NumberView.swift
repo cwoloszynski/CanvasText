@@ -54,7 +54,7 @@ final class NumberView: ViewType, Annotation {
 	}
 
 
-	// MARK: - UIView
+	// MARK: - View
 
 	override func draw(_ rect: CGRect) {
 		guard let block = block as? OrderedListItem else { return }

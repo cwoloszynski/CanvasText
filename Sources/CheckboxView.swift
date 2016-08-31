@@ -6,16 +6,10 @@
 //  Copyright © 2015 Canvas Labs, Inc. All rights reserved.
 //
 
-#if os(OSX)
-	import AppKit
-#else
-	import UIKit
-#endif
-
-import CanvasNative
 import X
+import CanvasNative
 
-final class CheckboxView: UIButton, Annotation {
+final class CheckboxView: ViewType, Annotation {
 
 	// MARK: - Properties
 
@@ -26,18 +20,33 @@ final class CheckboxView: UIButton, Annotation {
 			else { return }
 
 			if old.state != new.state {
-				setNeedsDisplay()
+				#if os(macOS)
+					needsDisplay = true
+				#else
+					setNeedsDisplay()
+				#endif
 			}
 		}
 	}
 
 	var theme: Theme {
 		didSet {
-			backgroundColor = theme.backgroundColor
-			tintColor = theme.tintColor
-			setNeedsDisplay()
+			#if os(macOS)
+				layer?.backgroundColor = theme.backgroundColor.cgColor
+				needsDisplay = true
+			#else
+				backgroundColor = theme.backgroundColor
+				tintColor = theme.tintColor
+				setNeedsDisplay()
+			#endif
 		}
 	}
+
+	#if os(macOS)
+		var tintColor: Color {
+			return theme.tintColor
+		}
+	#endif
 
 	var horizontalSizeClass: UserInterfaceSizeClass = .unspecified
 
@@ -51,8 +60,14 @@ final class CheckboxView: UIButton, Annotation {
 
 		super.init(frame: .zero)
 
-		backgroundColor = theme.backgroundColor
-		contentMode = .redraw
+		#if os(macOS)
+			wantsLayer = true
+			layer?.backgroundColor = theme.backgroundColor.cgColor
+		#else
+			isUserInteractionEnabled = false
+			contentMode = .redraw
+			backgroundColor = theme.backgroundColor
+		#endif
 	}
 
 	required init?(coder aDecoder: NSCoder) {
@@ -60,41 +75,68 @@ final class CheckboxView: UIButton, Annotation {
 	}
 
 
-	// MARK: - UIView
+	// MARK: - View
 
 	override func draw(_ rect: CGRect) {
 		guard let checklistItem = block as? ChecklistItem else { return }
 
 		let lineWidth: CGFloat = 2
-		let rect = checkboxRectForBounds(bounds: bounds).insetBy(dx: lineWidth / 2, dy: lineWidth / 2)
+		let rect = checkboxRect(bounds: bounds).insetBy(dx: lineWidth / 2, dy: lineWidth / 2)
+		let cornerRadius = floor(rect.height / 2)
 
 		if checklistItem.state == .checked {
 			tintColor.setFill()
-			UIBezierPath(roundedRect: rect, cornerRadius: rect.height / 2).fill()
+
+			#if os(macOS)
+				NSBezierPath(roundedRect: rect, xRadius: cornerRadius, yRadius: cornerRadius).fill()
+			#else
+				UIBezierPath(roundedRect: rect, cornerRadius: cornerRadius).fill()
+			#endif
 
 			let bundle = Bundle(for: CheckboxView.self)
 			if let checkmark = Image(named: "CheckmarkSmall", in: bundle) {
-				theme.backgroundColor.setFill()
-				checkmark.draw(at: CGPoint(x: rect.origin.x + (rect.width - checkmark.size.width) / 2, y: rect.origin.y + (rect.height - checkmark.size.height) / 2))
+				let checkmarkRect = CGRect(
+					x: rect.origin.x + (rect.width - checkmark.size.width) / 2,
+					y: rect.origin.y + (rect.height - checkmark.size.height) / 2,
+					width: checkmark.size.width,
+					height: checkmark.size.height
+				)
+
+				#if os(macOS)
+					checkmark.lockFocus()
+					theme.backgroundColor.set()
+					NSRectFillUsingOperation(CGRect(origin: .zero, size: checkmark.size), NSCompositeSourceAtop)
+					checkmark.unlockFocus()
+				#else
+					theme.backgroundColor.setFill()
+				#endif
+
+				checkmark.draw(in: checkmarkRect)
 			}
 			return
 		}
 
 		theme.uncheckedCheckboxColor.setStroke()
-		let path = UIBezierPath(roundedRect: rect.insetBy(dx: 1, dy: 1), cornerRadius: rect.height / 2)
+		#if os(macOS)
+			let path = NSBezierPath(roundedRect: rect.insetBy(dx: 1, dy: 1), xRadius: cornerRadius, yRadius: cornerRadius)
+		#else
+			let path = UIBezierPath(roundedRect: rect.insetBy(dx: 1, dy: 1), cornerRadius: cornerRadius)
+		#endif
 		path.lineWidth = lineWidth
 		path.stroke()
 	}
 
-	override func tintColorDidChange() {
-		super.tintColorDidChange()
-		setNeedsDisplay()
-	}
+	#if os(iOS)
+		override func tintColorDidChange() {
+			super.tintColorDidChange()
+			setNeedsDisplay()
+		}
+	#endif
 
 
 	// MARK: - Private
 
-	private func checkboxRectForBounds(bounds: CGRect) -> CGRect {
+	private func checkboxRect(bounds: CGRect) -> CGRect {
 		let size = bounds.height
 
 		return CGRect(

@@ -108,6 +108,8 @@
 		21FC9E7D1D77891300F2C166 /* ImageAttachmentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21FC9E7C1D77891300F2C166 /* ImageAttachmentCell.swift */; };
 		21FC9E821D779EA700F2C166 /* OrderedListItem+CanvasText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2138C2D01C9722DF00D93FF4 /* OrderedListItem+CanvasText.swift */; };
 		21FC9E831D779EAC00F2C166 /* NumberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2138C2CE1C97228100D93FF4 /* NumberView.swift */; };
+		21FC9E841D77A02D00F2C166 /* CheckboxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21DF7A2E1C8F75C300C17A62 /* CheckboxView.swift */; };
+		21FC9E851D77A03200F2C166 /* ChecklistItem+CanvasText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21DF7A401C8F9C2A00C17A62 /* ChecklistItem+CanvasText.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -709,9 +711,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				21FC9E851D77A03200F2C166 /* ChecklistItem+CanvasText.swift in Sources */,
 				218944D01CFFA096003F743B /* Listable+CanvasText.swift in Sources */,
 				2166E3051D14AA7300470366 /* BaseTextStorage.m in Sources */,
 				218944BA1CFFA084003F743B /* Themeable.swift in Sources */,
+				21FC9E841D77A02D00F2C166 /* CheckboxView.swift in Sources */,
 				218944AF1CFFA07E003F743B /* TextController+Actions.swift in Sources */,
 				21D24D401D120B7B00741038 /* BulletView.swift in Sources */,
 				21E1204F1D76CBA50063D780 /* NSTextAttachment+CanvasText.swift in Sources */,
