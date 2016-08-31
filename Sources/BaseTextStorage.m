@@ -33,6 +33,7 @@
 }
 
 - (NSDictionary<NSString *,id> *)attributesAtIndex:(NSUInteger)location effectiveRange:(NSRangePointer)effectiveRange {
+	NSAssert(location < self.length, @"[CanvasText] Tried to access attributes at out of bounds index %lu. Length: %lu", (unsigned long)location, (unsigned long)self.length);
 	return [self.storage attributesAtIndex:location effectiveRange:effectiveRange];
 }
 
@@ -45,7 +46,7 @@
 
 - (void)setAttributes:(NSDictionary<NSString *,id> *)attributes range:(NSRange)range {
 	if (NSMaxRange(range) > self.length) {
-		NSLog(@"WARNING: Tried to set attributes at out of bounds range %@. Length: %lu", NSStringFromRange(range), (unsigned long)self.length);
+		NSLog(@"[CanvasText] Tried to set attributes at out of bounds range %@. Length: %lu", NSStringFromRange(range), (unsigned long)self.length);
 		return;
 	}
 	
