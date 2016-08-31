@@ -46,7 +46,7 @@ final class ImagesController: Themeable {
 
 		// Setup disk cache
 		if let cachesDirectory = NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true).first {
-			let directory = (cachesDirectory as NSString).appendingPathComponent("CanvasImages") as String
+			let directory = (cachesDirectory as NSString).appendingPathComponent("com.usecanvas.canvas/Images") as String
 
 			if let diskCache = DiskCache<Image>(directory: directory) {
 				caches.append(AnyCache(diskCache))
@@ -133,13 +133,13 @@ final class ImagesController: Themeable {
 		let bundle = Bundle(for: ImagesController.self)
 		guard let icon = Image(named: "PhotoLandscape", in: bundle) else { return nil }
 		
-		let rect = CGRect(origin: .zero, size: size)
+		let rect = CGRect(x: 0, y: 0, width: size.width * scale, height: size.height * scale)
 
 		let bitmapInfo = CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedLast.rawValue)
 		guard let context = CGContext(
 			data: nil,
-			width: Int(size.width * scale),
-			height: Int(size.height * scale),
+			width: Int(rect.width),
+			height: Int(rect.height),
 			bitsPerComponent: 8,
 			bytesPerRow: 0,
 			space: CGColorSpaceCreateDeviceRGB(),
@@ -154,15 +154,18 @@ final class ImagesController: Themeable {
 
 		// Icon
 		context.setFillColor(theme.imagePlaceholderColor.cgColor)
+		let iconSize = CGSize(width: icon.size.width * scale, height: icon.size.height * scale)
 		let iconFrame = CGRect(
-			x: (size.width - icon.size.width) / 2,
-			y: (size.height - icon.size.height) / 2,
-			width: icon.size.width,
-			height: icon.size.height
+			x: (rect.width - iconSize.width) / 2,
+			y: (rect.height - iconSize.height) / 2,
+			width: iconSize.width,
+			height: iconSize.height
 		)
 		context.draw(icon.cgImage, in: iconFrame)
 
+
+
 		let cgImage = context.makeImage()
-		return cgImage.flatMap(Image.init)
+		return cgImage.flatMap { NSImage(cgImage: $0, size: size) }
 	}
 }

@@ -15,8 +15,7 @@ extension NSTextAttachment {
 		bounds = CGRect(origin: .zero, size: size)
 
 		#if os(macOS)
-			// TODO: Fix scale
-			let cell = NSTextAttachmentCell(imageCell: image)
+			let cell = ImageAttachmentCell(image: image, size: size)
 			attachmentCell = cell
 			cell.attachment = self
 

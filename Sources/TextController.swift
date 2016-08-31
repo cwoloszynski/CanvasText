@@ -528,8 +528,9 @@ public final class TextController: NSObject {
 	}
 	
 	fileprivate func attachmentSize(imageSize input: CGSize?) -> CGSize {
-		let imageSize = input ?? CGSize(width: floor(textContainer.size.width), height: 300)
-		let width = min(floor(textContainer.size.width), imageSize.width)
+		let maxWidth = floor(textContainer.size.width)
+		let imageSize = input ?? CGSize(width: maxWidth, height: 300)
+		let width = min(maxWidth, imageSize.width)
 		var size = imageSize
 		
 		size.height = floor(width * size.height / size.width)

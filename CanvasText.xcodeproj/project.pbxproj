@@ -105,6 +105,7 @@
 		21F7EEEC1CD7F77D004E80E2 /* SelectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F7EEEB1CD7F77D004E80E2 /* SelectionController.swift */; };
 		21F7EEEF1CD7F833004E80E2 /* SelectionControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F7EEED1CD7F82F004E80E2 /* SelectionControllerTests.swift */; };
 		21F7EEF11CD7F8EA004E80E2 /* NSRange+CanvasTextTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F7EEF01CD7F8EA004E80E2 /* NSRange+CanvasTextTests.swift */; };
+		21FC9E7D1D77891300F2C166 /* ImageAttachmentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21FC9E7C1D77891300F2C166 /* ImageAttachmentCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -215,6 +216,7 @@
 		21F7EEEB1CD7F77D004E80E2 /* SelectionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectionController.swift; sourceTree = "<group>"; };
 		21F7EEED1CD7F82F004E80E2 /* SelectionControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectionControllerTests.swift; sourceTree = "<group>"; };
 		21F7EEF01CD7F8EA004E80E2 /* NSRange+CanvasTextTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSRange+CanvasTextTests.swift"; sourceTree = "<group>"; };
+		21FC9E7C1D77891300F2C166 /* ImageAttachmentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageAttachmentCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -397,6 +399,7 @@
 			children = (
 				21B1E6161CD422A900E2902C /* ImagesController.swift */,
 				21B1E6121CD3FF9300E2902C /* HorizontalRuleAttachment.swift */,
+				21FC9E7C1D77891300F2C166 /* ImageAttachmentCell.swift */,
 			);
 			name = Attachments;
 			sourceTree = "<group>";
@@ -730,6 +733,7 @@
 				218944BB1CFFA08A003F743B /* AnnotationsController.swift in Sources */,
 				218944B11CFFA07E003F743B /* TextController+MarkdownShortcuts.swift in Sources */,
 				2166E30B1D14B18E00470366 /* CanvasTextStorage.m in Sources */,
+				21FC9E7D1D77891300F2C166 /* ImageAttachmentCell.swift in Sources */,
 				218944D11CFFA096003F743B /* NSURL+CanvasText.swift in Sources */,
 				218944B51CFFA081003F743B /* LayoutManager.swift in Sources */,
 				218944B71CFFA084003F743B /* BlockSpacing.swift in Sources */,
