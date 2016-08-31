@@ -106,6 +106,8 @@
 		21F7EEEF1CD7F833004E80E2 /* SelectionControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F7EEED1CD7F82F004E80E2 /* SelectionControllerTests.swift */; };
 		21F7EEF11CD7F8EA004E80E2 /* NSRange+CanvasTextTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F7EEF01CD7F8EA004E80E2 /* NSRange+CanvasTextTests.swift */; };
 		21FC9E7D1D77891300F2C166 /* ImageAttachmentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21FC9E7C1D77891300F2C166 /* ImageAttachmentCell.swift */; };
+		21FC9E821D779EA700F2C166 /* OrderedListItem+CanvasText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2138C2D01C9722DF00D93FF4 /* OrderedListItem+CanvasText.swift */; };
+		21FC9E831D779EAC00F2C166 /* NumberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2138C2CE1C97228100D93FF4 /* NumberView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -722,12 +724,14 @@
 				218944C91CFFA090003F743B /* UserInterfaceSizeClass.swift in Sources */,
 				218944B21CFFA07E003F743B /* SelectionController.swift in Sources */,
 				218944C31CFFA08C003F743B /* ImagesController.swift in Sources */,
+				21FC9E831D779EAC00F2C166 /* NumberView.swift in Sources */,
 				21D24D3F1D120B7000741038 /* UnorderedListItem+CanvasText.swift in Sources */,
 				21F6EFFF1D70A0F9008B63DF /* HorizontalRuleAttachment.swift in Sources */,
 				2193DC601D07A776004D8D0C /* Theme+Default.swift in Sources */,
 				218944CA1CFFA096003F743B /* NSRange+CanvasText.swift in Sources */,
 				21D24D3B1D12075500741038 /* BlockquoteBorderView.swift in Sources */,
 				218944AE1CFFA07E003F743B /* TextController.swift in Sources */,
+				21FC9E821D779EA700F2C166 /* OrderedListItem+CanvasText.swift in Sources */,
 				213A57531D25DC6500DFECFA /* Font+CanvasText.swift in Sources */,
 				218944BC1CFFA08A003F743B /* Annotatable.swift in Sources */,
 				218944BB1CFFA08A003F743B /* AnnotationsController.swift in Sources */,

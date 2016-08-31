@@ -6,9 +6,8 @@
 //  Copyright © 2016 Canvas Labs, Inc. All rights reserved.
 //
 
-import UIKit
-import CanvasNative
 import X
+import CanvasNative
 
 final class NumberView: ViewType, Annotation {
 
@@ -18,9 +17,13 @@ final class NumberView: ViewType, Annotation {
 
 	var theme: Theme {
 		didSet {
-			backgroundColor = theme.backgroundColor
-			tintColor = theme.tintColor
-			setNeedsDisplay()
+			#if os(macOS)
+				layer?.backgroundColor = theme.backgroundColor.cgColor
+				needsDisplay = true
+			#else
+				backgroundColor = theme.backgroundColor
+				setNeedsDisplay()
+			#endif
 		}
 	}
 
@@ -36,9 +39,14 @@ final class NumberView: ViewType, Annotation {
 
 		super.init(frame: .zero)
 
-		isUserInteractionEnabled = false
-		contentMode = .redraw
-		backgroundColor = theme.backgroundColor
+		#if os(macOS)
+			wantsLayer = true
+			layer?.backgroundColor = theme.backgroundColor.cgColor
+		#else
+			isUserInteractionEnabled = false
+			contentMode = .redraw
+			backgroundColor = theme.backgroundColor
+		#endif
 	}
 
 	required init?(coder aDecoder: NSCoder) {
@@ -57,7 +65,11 @@ final class NumberView: ViewType, Annotation {
 			NSFontAttributeName: FontTextStyle.body.font().fontWithMonospacedNumbers
 		]
 
-		let size = string.size(attributes: attributes)
+		#if os(macOS)
+			let size = string.size(withAttributes: attributes)
+		#else
+			let size = string.size(attributes: attributes)
+		#endif
 
 		// TODO: It would be better if we could calculate this from the font
 		let rect = CGRect(
