@@ -484,10 +484,11 @@ public final class TextController: NSObject {
 		// Horizontal rule
 		if block is HorizontalRule {
 			guard let image = HorizontalRuleAttachment.image(theme: theme) else { return nil }
-			
-			attachment = NSTextAttachment()
-			attachment.image = image
-			attachment.bounds = CGRect(x: 0, y: 0, width: textContainer.size.width, height: HorizontalRuleAttachment.height)
+
+			attachment = NSTextAttachment(image: image, size: CGSize(
+				width: textContainer.size.width,
+				height: HorizontalRuleAttachment.height
+			))
 		}
 
 		// Image
@@ -502,21 +503,16 @@ public final class TextController: NSObject {
 			#endif
 
 			var size = attachmentSize(imageSize: block.size)
-			let image = imagesController.fetchImage(
+			guard let image = imagesController.fetchImage(
 				id: block.identifier,
 				url: url,
 				size: size,
 				scale: scale,
 				completion: updateImageAttachment
-			)
+			) else { return nil }
 
-			if let image = image {
-				size = attachmentSize(imageSize: image.size)
-			}
-			
-			attachment = NSTextAttachment()
-			attachment.image = image
-			attachment.bounds = CGRect(origin: .zero, size: size)
+			size = attachmentSize(imageSize: image.size)
+			attachment = NSTextAttachment(image: image, size: size)
 		}
 		
 		// Missing attachment
@@ -524,7 +520,7 @@ public final class TextController: NSObject {
 			print("[TextController] WARNING: Missing attachment for block \(block)")
 			return nil
 		}
-		
+
 		let range = currentDocument.presentationRange(block: block)
 		return Style(range: range, attributes: [
 			NSAttachmentAttributeName: attachment
@@ -555,10 +551,7 @@ public final class TextController: NSObject {
 	fileprivate func updateImageAttachment(ID: String, image: X.Image?) {
 		guard let image = image, let block = blockForImageID(ID) else { return }
 		
-		let attachment = NSTextAttachment()
-		attachment.image = image
-		attachment.bounds = CGRect(origin: .zero, size: attachmentSize(imageSize: image.size))
-		
+		let attachment = NSTextAttachment(image: image, size: attachmentSize(imageSize: image.size))
 		let range = currentDocument.presentationRange(block: block)
 		let style = Style(range: range, attributes: [
 			NSAttachmentAttributeName: attachment

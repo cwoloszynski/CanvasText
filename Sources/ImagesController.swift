@@ -135,7 +135,18 @@ final class ImagesController: Themeable {
 		
 		let rect = CGRect(origin: .zero, size: size)
 
-		guard let context = CGContext(data: nil, width: Int(size.width * scale), height: Int(size.height * scale), bitsPerComponent: 0, bytesPerRow: 0, space: CGColorSpaceCreateDeviceRGB(), bitmapInfo: 0, releaseCallback: nil, releaseInfo: nil) else { return nil }
+		let bitmapInfo = CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedLast.rawValue)
+		guard let context = CGContext(
+			data: nil,
+			width: Int(size.width * scale),
+			height: Int(size.height * scale),
+			bitsPerComponent: 8,
+			bytesPerRow: 0,
+			space: CGColorSpaceCreateDeviceRGB(),
+			bitmapInfo: bitmapInfo.rawValue,
+			releaseCallback: nil,
+			releaseInfo: nil
+		) else { return nil }
 
 		// Background
 		context.setFillColor(theme.imagePlaceholderBackgroundColor.cgColor)
@@ -151,6 +162,7 @@ final class ImagesController: Themeable {
 		)
 		context.draw(icon.cgImage, in: iconFrame)
 
-		return context.makeImage().flatMap(Image.init)
+		let cgImage = context.makeImage()
+		return cgImage.flatMap(Image.init)
 	}
 }

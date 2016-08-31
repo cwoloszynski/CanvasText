@@ -92,6 +92,8 @@
 		21DF7A451C8FA11100C17A62 /* ChecklistItem+CanvasText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21DF7A401C8F9C2A00C17A62 /* ChecklistItem+CanvasText.swift */; };
 		21DF7A4A1C8FA27D00C17A62 /* CodeBlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21DF7A491C8FA27D00C17A62 /* CodeBlockView.swift */; };
 		21DF7A4C1C8FA3A300C17A62 /* CodeBlock+CanvasText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21DF7A4B1C8FA3A300C17A62 /* CodeBlock+CanvasText.swift */; };
+		21E1204E1D76CBA50063D780 /* NSTextAttachment+CanvasText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E1204D1D76CBA50063D780 /* NSTextAttachment+CanvasText.swift */; };
+		21E1204F1D76CBA50063D780 /* NSTextAttachment+CanvasText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E1204D1D76CBA50063D780 /* NSTextAttachment+CanvasText.swift */; };
 		21E1D9DE1C8DF54700283961 /* BulletView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E1D9DD1C8DF54700283961 /* BulletView.swift */; };
 		21E1D9E21C8DF65900283961 /* AnnotationsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E1D9E11C8DF65900283961 /* AnnotationsController.swift */; };
 		21E1D9E61C8DF6B800283961 /* Themeable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E1D9E51C8DF6B800283961 /* Themeable.swift */; };
@@ -204,6 +206,7 @@
 		21DF7A401C8F9C2A00C17A62 /* ChecklistItem+CanvasText.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ChecklistItem+CanvasText.swift"; sourceTree = "<group>"; };
 		21DF7A491C8FA27D00C17A62 /* CodeBlockView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CodeBlockView.swift; sourceTree = "<group>"; };
 		21DF7A4B1C8FA3A300C17A62 /* CodeBlock+CanvasText.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CodeBlock+CanvasText.swift"; sourceTree = "<group>"; };
+		21E1204D1D76CBA50063D780 /* NSTextAttachment+CanvasText.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSTextAttachment+CanvasText.swift"; sourceTree = "<group>"; };
 		21E1D9DD1C8DF54700283961 /* BulletView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BulletView.swift; sourceTree = "<group>"; };
 		21E1D9E11C8DF65900283961 /* AnnotationsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnnotationsController.swift; sourceTree = "<group>"; };
 		21E1D9E51C8DF6B800283961 /* Themeable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Themeable.swift; sourceTree = "<group>"; };
@@ -384,6 +387,7 @@
 				21DF7A4B1C8FA3A300C17A62 /* CodeBlock+CanvasText.swift */,
 				214F9FF41CC6C9EC00927A07 /* Listable+CanvasText.swift */,
 				2122BFD71CFE35EB00A038DE /* NSURL+CanvasText.swift */,
+				21E1204D1D76CBA50063D780 /* NSTextAttachment+CanvasText.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -679,6 +683,7 @@
 				21AD8C301C8A430B000A53F8 /* Theme.swift in Sources */,
 				2138C2D11C9722DF00D93FF4 /* OrderedListItem+CanvasText.swift in Sources */,
 				21DF7A451C8FA11100C17A62 /* ChecklistItem+CanvasText.swift in Sources */,
+				21E1204E1D76CBA50063D780 /* NSTextAttachment+CanvasText.swift in Sources */,
 				21AD8D091C8A491E000A53F8 /* LayoutManager.swift in Sources */,
 				21DF7A431C8FA08300C17A62 /* Blockquote+CanvasText.swift in Sources */,
 				21DF7A4C1C8FA3A300C17A62 /* CodeBlock+CanvasText.swift in Sources */,
@@ -704,6 +709,7 @@
 				218944BA1CFFA084003F743B /* Themeable.swift in Sources */,
 				218944AF1CFFA07E003F743B /* TextController+Actions.swift in Sources */,
 				21D24D401D120B7B00741038 /* BulletView.swift in Sources */,
+				21E1204F1D76CBA50063D780 /* NSTextAttachment+CanvasText.swift in Sources */,
 				218944B01CFFA07E003F743B /* TextController+Gestures.swift in Sources */,
 				218944B61CFFA081003F743B /* TextContainer.swift in Sources */,
 				21D24D3C1D1207A600741038 /* Blockquote+CanvasText.swift in Sources */,
