@@ -74,13 +74,11 @@ final class AnnotationsController {
 		annotations.insert(annotation, at: index)
 		delegate?.annotationsController(self, willAddAnnotation: annotation)
 
-		#if !os(OSX)
-			// Add taps
-			if annotation.view.isUserInteractionEnabled {
-				let tap = TapGestureRecognizer(target: self, action: #selector(self.tap))
-				annotation.view.addGestureRecognizer(tap)
-			}
-		#endif
+		// Add taps
+		if annotation.view is CheckboxView {
+			let gesture = TapGestureRecognizer(target: self, action: #selector(tap))
+			annotation.view.addGestureRecognizer(gesture)
+		}
 	}
 
 	func remove(block: BlockNode, index: Int) {
@@ -220,15 +218,13 @@ final class AnnotationsController {
 		return block.annotation(theme: theme)
 	}
 
-	#if !os(OSX)
-		@objc private func tap(sender: TapGestureRecognizer?) {
-			guard let annotation = sender?.view as? CheckboxView,
-				let block = annotation.block as? ChecklistItem
-			else { return }
+	@objc private func tap(sender: TapGestureRecognizer?) {
+		guard let annotation = sender?.view as? CheckboxView,
+			let block = annotation.block as? ChecklistItem
+		else { return }
 
-			let range = block.stateRange
-			let replacement = block.state.opposite.string
-			textController?.edit(backingRange: range, replacement: replacement)
-		}
-	#endif
+		let range = block.stateRange
+		let replacement = block.state.opposite.string
+		textController?.edit(backingRange: range, replacement: replacement)
+	}
 }

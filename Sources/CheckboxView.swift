@@ -63,6 +63,9 @@ final class CheckboxView: ViewType, Annotation {
 		#if os(macOS)
 			wantsLayer = true
 			layer?.backgroundColor = theme.backgroundColor.cgColor
+
+			let area = NSTrackingArea(rect: bounds, options: [.activeInActiveApp, .mouseMoved, .inVisibleRect], owner: self, userInfo: nil)
+			addTrackingArea(area)
 		#else
 			isUserInteractionEnabled = false
 			contentMode = .redraw
@@ -130,6 +133,12 @@ final class CheckboxView: ViewType, Annotation {
 		override func tintColorDidChange() {
 			super.tintColorDidChange()
 			setNeedsDisplay()
+		}
+	#endif
+
+	#if os(macOS)
+		override func mouseMoved(with event: NSEvent) {
+			NSCursor.pointingHand().set()
 		}
 	#endif
 
