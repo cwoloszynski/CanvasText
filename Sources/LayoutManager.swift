@@ -39,16 +39,26 @@ class LayoutManager: NSLayoutManager {
 
 	var unfoldedRange: NSRange? {
 		didSet {
-			let wasFolding = oldValue.flatMap { foldedIndices.subtract($0.indices) } ?? foldedIndices
-			let nowFolding = unfoldedRange.flatMap { foldedIndices.subtract($0.indices) } ?? foldedIndices
-			let updated = nowFolding.exclusiveOr(wasFolding)
+            let wasFolding = oldValue.flatMap( { (range: NSRange) -> Set<Int> in
+                let indices = range.indices
+                var oldFoldedIndices = foldedIndices
+                oldFoldedIndices.subtract(indices)
+                return oldFoldedIndices
+            }) ?? foldedIndices
+            
+            let nowFolding = unfoldedRange.flatMap(  { (range: NSRange) -> Set<Int> in
+                let indices = range.indices
+                foldedIndices.subtract(indices)
+                return foldedIndices
+            }) ?? foldedIndices
+			let updated = nowFolding.symmetricDifference(wasFolding)
 
 			if updated.isEmpty {
 				return
 			}
 
 			NSRange.ranges(indices: updated).forEach { range in
-				invalidateGlyphsForCharacterRange(range, changeInLength: 0, actualCharacterRange: nil)
+				invalidateGlyphs(forCharacterRange: range, changeInLength: 0, actualCharacterRange: nil)
 			}
 
 			needsUpdateTextContainer = true
@@ -61,7 +71,7 @@ class LayoutManager: NSLayoutManager {
 	private var foldableRanges = [NSRange]() {
 		didSet {
 			var set = Set<Int>()
-			foldableRanges.forEach { set.unionInPlace($0.indices) }
+			foldableRanges.forEach { set.formUnion($0.indices) }
 			foldedIndices = set
 		}
 	}
@@ -71,10 +81,10 @@ class LayoutManager: NSLayoutManager {
 	private var needsUpdateTextContainer = false
 
 	/// Set of indices that should be folded. Calculated from `foldableRanges`.
-	private var foldedIndices = Set<Int>()
+	fileprivate var foldedIndices = Set<Int>()
 	
 	// TODO: Get this from the theme and vary based on the block's font
-	private let lineSpacing: CGFloat = 3
+	fileprivate let lineSpacing: CGFloat = 3
 
 
 	// MARK: - Initializers
@@ -92,9 +102,9 @@ class LayoutManager: NSLayoutManager {
 	
 	// MARK: - NSLayoutManager
 
-	override func textContainerChangedGeometry(container: NSTextContainer) {
+	override func textContainerChangedGeometry(_ container: NSTextContainer) {
 		super.textContainerChangedGeometry(container)
-		layoutDelegate?.layoutManager(self, textContainerChangedGeometry: container)
+		layoutDelegate?.layoutManager(layoutManager: self, textContainerChangedGeometry: container)
 	}
 
 	override var extraLineFragmentRect: CGRect {
@@ -103,16 +113,16 @@ class LayoutManager: NSLayoutManager {
 		return rect
 	}
 
-	override func processEditingForTextStorage(textStorage: NSTextStorage, edited editMask: NSTextStorageEditActions, range: NSRange, changeInLength delta: Int, invalidatedRange: NSRange) {
-		super.processEditingForTextStorage(textStorage, edited: editMask, range: range, changeInLength: delta, invalidatedRange: invalidatedRange)
-		invalidateFoldingIfNeeded()
+	override func processEditing(for textStorage: NSTextStorage, edited editMask: NSTextStorageEditActions, range: NSRange, changeInLength delta: Int, invalidatedRange: NSRange) {
+		super.processEditing(for: textStorage, edited: editMask, range: range, changeInLength: delta, invalidatedRange: invalidatedRange)
+		_ = invalidateFoldingIfNeeded()
 	}
 
 
 	// MARK: - Folding
 
 	func addFoldableRanges(ranges: [NSRange]) {
-		foldableRanges = (foldableRanges + ranges).sort { $0.location < $1.location }
+		foldableRanges = (foldableRanges + ranges).sorted { $0.location < $1.location }
 	}
 
 	func removeFoldableRanges() {
@@ -128,7 +138,7 @@ class LayoutManager: NSLayoutManager {
 
 		for range in foldableRanges {
 			if invalidRange.intersection(range) != nil {
-				invalidateGlyphsForCharacterRange(range, changeInLength: 0, actualCharacterRange: nil)
+				invalidateGlyphs(forCharacterRange: range, changeInLength: 0, actualCharacterRange: nil)
 				invalidated = true
 			}
 		}
@@ -146,18 +156,18 @@ class LayoutManager: NSLayoutManager {
 
 	// MARK: - Private
 
-	private func updateTextContainerIfNeeded() {
+	fileprivate func updateTextContainerIfNeeded() {
 		if needsUpdateTextContainer {
-			textContainers.forEach(ensureLayoutForTextContainer)
-			layoutDelegate?.layoutManagerDidUpdateFolding(self)
+			textContainers.forEach(ensureLayout)
+			layoutDelegate?.layoutManagerDidUpdateFolding(layoutManager: self)
 			needsUpdateTextContainer = false
 		}
 
-		layoutDelegate?.layoutManagerDidLayout(self)
+		layoutDelegate?.layoutManagerDidLayout(layoutManager: self)
 	}
 
-	private func blockNodeAt(glyphIndex glyphIndex: Int) -> BlockNode? {
-		let characterIndex = characterIndexForGlyphAtIndex(glyphIndex)
+	fileprivate func blockNodeAt(glyphIndex: Int) -> BlockNode? {
+		let characterIndex = characterIndexForGlyph(at: glyphIndex)
 		return textController?.currentDocument.blockAt(presentationLocation: characterIndex)
 	}
 }
@@ -166,24 +176,24 @@ class LayoutManager: NSLayoutManager {
 extension LayoutManager: NSLayoutManagerDelegate {
 	// Mark folded characters as control characters so we can give them a zero width in
 	// `layoutManager:shouldUseAction:forControlCharacterAtIndex:`.
-	func layoutManager(layoutManager: NSLayoutManager, shouldGenerateGlyphs glyphs: UnsafePointer<CGGlyph>, properties props: UnsafePointer<NSGlyphProperty>, characterIndexes: UnsafePointer<Int>, font: Font, forGlyphRange glyphRange: NSRange) -> Int {
+	func layoutManager(_ layoutManager: NSLayoutManager, shouldGenerateGlyphs glyphs: UnsafePointer<CGGlyph>, properties props: UnsafePointer<NSGlyphProperty>, characterIndexes: UnsafePointer<Int>, font: Font, forGlyphRange glyphRange: NSRange) -> Int {
 		if foldedIndices.isEmpty {
 			return 0
 		}
 
-		let properties = UnsafeMutablePointer<NSGlyphProperty>(props)
+		let properties = UnsafeMutablePointer<NSGlyphProperty>(mutating: props)
 
 		var changed = false
 		for i in 0..<glyphRange.length {
 			let characterIndex = characterIndexes[i]
 
 			// Skip selected characters
-			if let selection = unfoldedRange where selection.contains(characterIndex) {
+			if let selection = unfoldedRange, selection.contains(characterIndex) {
 				continue
 			}
 
 			if foldedIndices.contains(characterIndex) {
-				properties[i] = .ControlCharacter
+				properties[i] = .controlCharacter
 				changed = true
 			}
 		}
@@ -197,23 +207,23 @@ extension LayoutManager: NSLayoutManagerDelegate {
 	}
 
 	// Folded characters should have a zero width
-	func layoutManager(layoutManager: NSLayoutManager, shouldUseAction action: NSControlCharacterAction, forControlCharacterAtIndex characterIndex: Int) -> NSControlCharacterAction {
+	func layoutManager(_ layoutManager: NSLayoutManager, shouldUse action: NSControlCharacterAction, forControlCharacterAt characterIndex: Int) -> NSControlCharacterAction {
 		// Don't advance if it's a control character we changed
 		if foldedIndices.contains(characterIndex) {
-			return .ZeroAdvancement
+			return .zeroAdvancement
 		}
 
 		// Default action for things we didn't change
 		return action
 	}
 
-	func layoutManager(layoutManager: NSLayoutManager, lineSpacingAfterGlyphAtIndex glyphIndex: Int, withProposedLineFragmentRect rect: CGRect) -> CGFloat {
+	func layoutManager(_ layoutManager: NSLayoutManager, lineSpacingAfterGlyphAt glyphIndex: Int, withProposedLineFragmentRect rect: CGRect) -> CGFloat {
 		return lineSpacing
 	}
 
 	// Adjust the top margin of lines based on their block type
-	func layoutManager(layoutManager: NSLayoutManager, paragraphSpacingBeforeGlyphAtIndex glyphIndex: Int, withProposedLineFragmentRect rect: CGRect) -> CGFloat {
-		guard let textController = textController, block = blockNodeAt(glyphIndex: glyphIndex) else { return 0 }
+	func layoutManager(_ layoutManager: NSLayoutManager, paragraphSpacingBeforeGlyphAt glyphIndex: Int, withProposedLineFragmentRect rect: CGRect) -> CGFloat {
+		guard let textController = textController, let block = blockNodeAt(glyphIndex: glyphIndex) else { return 0 }
 
 		// Apply the top margin if it's not the second node
 		let blocks = textController.currentDocument.blocks
@@ -226,15 +236,15 @@ extension LayoutManager: NSLayoutManagerDelegate {
 	}
 
 	// Adjust bottom margin of lines based on their block type
-	func layoutManager(layoutManager: NSLayoutManager, paragraphSpacingAfterGlyphAtIndex glyphIndex: Int, withProposedLineFragmentRect rect: CGRect) -> CGFloat {
-		guard let textController = textController, block = blockNodeAt(glyphIndex: glyphIndex) else { return 0 }
+	func layoutManager(_ layoutManager: NSLayoutManager, paragraphSpacingAfterGlyphAt glyphIndex: Int, withProposedLineFragmentRect rect: CGRect) -> CGFloat {
+		guard let textController = textController, let block = blockNodeAt(glyphIndex: glyphIndex) else { return 0 }
 		let spacing = textController.blockSpacing(block: block)
 		return spacing.marginBottom + spacing.paddingBottom
 	}
 
 	// If we've updated folding, we need to replace the layout manager in the text container. I'm all ears for a way to
 	// avoid this.
-	func layoutManager(layoutManager: NSLayoutManager, didCompleteLayoutForTextContainer textContainer: NSTextContainer?, atEnd layoutFinishedFlag: Bool) {
+	func layoutManager(_ layoutManager: NSLayoutManager, didCompleteLayoutFor textContainer: NSTextContainer?, atEnd layoutFinishedFlag: Bool) {
 		updateTextContainerIfNeeded()
 	}
 }

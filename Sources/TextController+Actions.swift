@@ -81,14 +81,14 @@ extension TextController {
 		guard let selection = presentationSelectedRange else { return }
 		
 		let text = currentDocument.presentationString as NSString
-		let lineRange = text.lineRangeForRange(selection)
+		let lineRange = text.lineRange(for: selection)
 		var range = NSRange(location: lineRange.max, length: 0)
 
-		if text.substringWithRange(NSRange(location: lineRange.max - 1, length: 1)) == "\n" {
+		if text.substring(with: NSRange(location: lineRange.max - 1, length: 1)) == "\n" {
 			range.location -= 1
 		}
 
-		textStorage.replaceCharactersInRange(range, withString: "\n")
+		textStorage.replaceCharacters(in: range, with: "\n")
 
 		range.location += 1
 		setPresentationSelectedRange(range, updateTextView: true)
@@ -98,7 +98,7 @@ extension TextController {
 		guard let selection = presentationSelectedRange else { return }
 		
 		let text = currentDocument.presentationString as NSString
-		let lineRange = text.lineRangeForRange(selection)
+		let lineRange = text.lineRange(for: selection)
 		
 		// Don't insert lines above the title
 		if lineRange.location == 0 {
@@ -107,7 +107,7 @@ extension TextController {
 		
 		var range = NSRange(location: lineRange.location - 1, length: 0)
 
-		textStorage.replaceCharactersInRange(range, withString: "\n")
+		textStorage.replaceCharacters(in: range, with: "\n")
 
 		range.location += 1
 		setPresentationSelectedRange(range, updateTextView: true)
@@ -144,18 +144,18 @@ extension TextController {
 	}
 
 	public func swapLineUp() {
-		guard var selection = presentationSelectedRange, let block = focusedBlock where !(block is Title) else { return }
+		guard var selection = presentationSelectedRange, let block = focusedBlock, !(block is Title) else { return }
 
 		let document = currentDocument
 
 		// Prevent swapping up to the title
-		guard let index = document.indexOf(block: block) where index > 1 else { return }
+		guard let index = document.indexOf(block: block), index > 1 else { return }
 
 		let before = document.blocks[index - 1]
 		let range = before.range.union(block.range)
 
 		let text = document.backingString as NSString
-		let replacement = text.substringWithRange(block.range) + "\n" + text.substringWithRange(before.range)
+		let replacement = text.substring(with: block.range) + "\n" + text.substring(with: before.range)
 		edit(backingRange: range, replacement: replacement)
 
 		selection.location -= before.visibleRange.length + 1
@@ -163,18 +163,18 @@ extension TextController {
 	}
 
 	public func swapLineDown() {
-		guard var selection = presentationSelectedRange, let block = focusedBlock where !(block is Title) else { return }
+		guard var selection = presentationSelectedRange, let block = focusedBlock, !(block is Title) else { return }
 
 		let document = currentDocument
 
 		// Prevent swapping down the last line
-		guard let index = document.indexOf(block: block) where index < document.blocks.count - 1 else { return }
+		guard let index = document.indexOf(block: block), index < document.blocks.count - 1 else { return }
 
 		let after = document.blocks[index + 1]
 		let range = after.range.union(block.range)
 
 		let text = document.backingString as NSString
-		let replacement = text.substringWithRange(after.range) + "\n" + text.substringWithRange(block.range)
+		let replacement = text.substring(with: after.range) + "\n" + text.substring(with: block.range)
 		edit(backingRange: range, replacement: replacement)
 
 		selection.location += after.visibleRange.length + 1

@@ -13,7 +13,7 @@ class SelectionControllerTests: XCTestCase {
 
 	// MARK: - Properties
 
-	private let startingSelection = NSRange(location: 10, length: 9)
+	fileprivate let startingSelection = NSRange(location: 10, length: 9)
 
 
 	// MARK: - Insert Tests

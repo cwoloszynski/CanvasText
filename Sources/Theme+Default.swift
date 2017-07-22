@@ -17,12 +17,12 @@ import X
 
 extension Theme {
 	public var fontSize: CGFloat {
-		return UIFont.preferredFontForTextStyle(UIFontTextStyleBody).pointSize
+		return UIFont.preferredFont(forTextStyle: UIFontTextStyle.body).pointSize
 	}
 
-	private var listIndentation: CGFloat {
-		let font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
-		return ("      " as NSString).sizeWithAttributes([NSFontAttributeName: font]).width
+	fileprivate var listIndentation: CGFloat {
+		let font = UIFont.preferredFont(forTextStyle: UIFontTextStyle.body)
+		return ("      " as NSString).size(attributes: [NSFontAttributeName: font]).width
 	}
 
 	public var baseAttributes: Attributes {
@@ -39,17 +39,17 @@ extension Theme {
 		return attributes
 	}
 
-	public func foldingAttributes(parentAttributes parentAttributes: Attributes) -> Attributes {
+	public func foldingAttributes(parentAttributes: Attributes) -> Attributes {
 		var attributes = parentAttributes
 		attributes[NSForegroundColorAttributeName] = foldedColor
 		return attributes
 	}
 
-	public func blockSpacing(block block: BlockNode, horizontalSizeClass: UserInterfaceSizeClass) -> BlockSpacing {
+	public func blockSpacing(block: BlockNode, horizontalSizeClass: UserInterfaceSizeClass) -> BlockSpacing {
 		var spacing = BlockSpacing(marginBottom: round(fontSize * 1.5))
 
 		// No margin if it's not at the bottom of a positionable list
-		if let block = block as? Positionable where !(block is Blockquote) {
+		if let block = block as? Positionable, !(block is Blockquote) {
 			if !block.position.isBottom {
 				spacing.marginBottom = 4
 			}
@@ -87,7 +87,7 @@ extension Theme {
 			spacing.paddingLeft = padding * 2
 
 			// Indent for line numbers
-			if horizontalSizeClass == .Regular {
+			if horizontalSizeClass == .regular {
 				// TODO: Don't hard code
 				spacing.paddingLeft += 40
 			}
@@ -116,7 +116,7 @@ extension Theme {
 		return spacing
 	}
 
-	public func attributes(block block: BlockNode) -> Attributes {
+	public func attributes(block: BlockNode) -> Attributes {
 		if block is Title {
 			return titleAttributes
 		}
@@ -163,7 +163,7 @@ extension Theme {
 		return attributes
 	}
 
-	public func attributes(span span: SpanNode, parentAttributes: Attributes) -> Attributes? {
+	public func attributes(span: SpanNode, parentAttributes: Attributes) -> Attributes? {
 		guard let currentFont = parentAttributes[NSFontAttributeName] as? X.Font else { return nil }
 		var traits = currentFont.symbolicTraits
 		var attributes = parentAttributes
@@ -177,18 +177,18 @@ extension Theme {
 		}
 
 		else if span is Strikethrough {
-			attributes[NSStrikethroughStyleAttributeName] = NSUnderlineStyle.StyleThick.rawValue
+			attributes[NSStrikethroughStyleAttributeName] = NSUnderlineStyle.styleThick.rawValue as AnyObject
 			attributes[NSStrikethroughColorAttributeName] = strikethroughColor
 			attributes[NSForegroundColorAttributeName] = strikethroughColor
 		}
 
 		else if span is DoubleEmphasis {
-			traits.insert(.TraitBold)
+			traits.insert(.traitBold)
 			attributes[NSFontAttributeName] = applySymbolicTraits(traits, toFont: currentFont)
 		}
 
 		else if span is Emphasis {
-			traits.insert(.TraitItalic)
+			traits.insert(.traitItalic)
 			attributes[NSFontAttributeName] = applySymbolicTraits(traits, toFont: currentFont)
 		}
 

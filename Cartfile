@@ -1,4 +1,4 @@
-github "usecanvas/OperationalTransformation"
-github "usecanvas/CanvasNative"
-github "soffes/Cache"
-github "soffes/X"
+github "cwoloszynski/OperationalTransformation"
+github "cwoloszynski/CanvasNative"
+github "cwoloszynski/Cache"
+github "cwoloszynski/X"

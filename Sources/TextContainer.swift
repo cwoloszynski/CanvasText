@@ -33,7 +33,7 @@ class TextContainer: NSTextContainer {
 			fatalError("init(coder:) has not been implemented")
 		}
 	#else
-		required init?(coder: NSCoder) {
+		required init(coder: NSCoder) {
 			fatalError("init(coder:) has not been implemented")
 		}
 	#endif
@@ -41,11 +41,11 @@ class TextContainer: NSTextContainer {
 
 	// MARK: - NSTextContainer
 
-	override func lineFragmentRectForProposedRect(proposedRect: CGRect, atIndex index: Int, writingDirection: NSWritingDirection, remainingRect: UnsafeMutablePointer<CGRect>) -> CGRect {
+	override func lineFragmentRect(forProposedRect proposedRect: CGRect, at index: Int, writingDirection: NSWritingDirection, remaining remainingRect: UnsafeMutablePointer<CGRect>?) -> CGRect {
 		var rect = proposedRect
 
-		if let textController = textController, block = textController.currentDocument.blockAt(presentationLocation: index) {
-			if block is Attachable, let attachment = layoutManager?.textStorage?.attribute(NSAttachmentAttributeName, atIndex: index, effectiveRange: nil) as? NSTextAttachment {
+		if let textController = textController, let block = textController.currentDocument.blockAt(presentationLocation: index) {
+			if block is Attachable, let attachment = layoutManager?.textStorage?.attribute(NSAttachmentAttributeName, at: index, effectiveRange: nil) as? NSTextAttachment {
 				let imageSize = attachment.bounds.size
 				rect.origin.y = ceil(rect.origin.y)
 				rect.origin.x += floor((size.width - imageSize.width) / 2)
@@ -56,6 +56,6 @@ class TextContainer: NSTextContainer {
 			}
 		}
 
-		return super.lineFragmentRectForProposedRect(rect, atIndex: index, writingDirection: writingDirection, remainingRect: remainingRect)
+		return super.lineFragmentRect(forProposedRect: rect, at: index, writingDirection: writingDirection, remaining: remainingRect)
 	}
 }

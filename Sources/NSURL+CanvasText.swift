@@ -8,11 +8,12 @@
 
 import Foundation
 
-extension NSURL {
+extension URL {
 	var isImageURL: Bool {
-		guard let ext = pathExtension?.lowercaseString else { return false }
-
-		let scheme = self.scheme.lowercaseString
+        let ext = pathExtension.lowercased()
+        if ext == "" { return false }
+        
+		let scheme = self.scheme?.lowercased()
 		return (scheme == "http" || scheme == "https") && (ext == "jpg" || ext == "gif" || ext == "png" || ext == "jpeg")
 	}
 }
