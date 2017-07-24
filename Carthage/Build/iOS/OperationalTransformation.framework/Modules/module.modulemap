@@ -1,0 +1,3 @@
+framework module OperationalTransformation {
+    header "OperationalTransformation-Swift.h"
+}

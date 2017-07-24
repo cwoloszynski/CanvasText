@@ -1,0 +1,10 @@
+framework module Cache {
+  umbrella header "Cache.h"
+
+  export *
+  module * { export * }
+}
+
+module Cache.Swift {
+    header "Cache-Swift.h"
+}

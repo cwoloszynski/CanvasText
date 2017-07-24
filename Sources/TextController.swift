@@ -69,8 +69,11 @@ public final class TextController: NSObject {
 		return textStorage.string
 	}
 
-	public fileprivate(set) var presentationSelectedRange: NSRange?
-
+    // public fileprivate(set) var presentationSelectedRange: NSRange?
+    // FIXME: Not really sure that this should be public, but let's do 
+    // there for now.
+    public var presentationSelectedRange: NSRange?
+    
 	public var focusedBlock: BlockNode? {
 		let selection = presentationSelectedRange
 		let document = currentDocument

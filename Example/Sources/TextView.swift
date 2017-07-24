@@ -11,13 +11,13 @@ import CanvasText
 
 final class TextView: UITextView {
 	// Only display the caret in the used rect (if available).
-	override func caretRectForPosition(position: UITextPosition) -> CGRect {
-		var rect = super.caretRectForPosition(position)
+	override func caretRect(for position: UITextPosition) -> CGRect {
+		var rect = super.caretRect(for: position)
 
 		if let layoutManager = textContainer.layoutManager {
-			layoutManager.ensureLayoutForTextContainer(textContainer)
+			layoutManager.ensureLayout(for: textContainer)
 
-			let characterIndex = offsetFromPosition(beginningOfDocument, toPosition: position)
+			let characterIndex = offset(from: beginningOfDocument, to: position)
 
 			let height: CGFloat
 
@@ -29,13 +29,13 @@ final class TextView: UITextView {
 					return rect
 				}
 
-				let glyphIndex = layoutManager.glyphIndexForCharacterAtIndex(characterIndex)
+				let glyphIndex = layoutManager.glyphIndexForCharacter(at: characterIndex)
 
 				if UInt(glyphIndex) == UInt.max - 1 {
 					return rect
 				}
 
-				height = layoutManager.lineFragmentUsedRectForGlyphAtIndex(glyphIndex, effectiveRange: nil).size.height
+				height = layoutManager.lineFragmentUsedRect(forGlyphAt: glyphIndex, effectiveRange: nil).size.height
 			}
 
 			if height > 0 {
@@ -47,8 +47,8 @@ final class TextView: UITextView {
 	}
 
 	// Omit empty width rect when drawing selection rects.
-	override func selectionRectsForRange(range: UITextRange) -> [AnyObject] {
-		let selectionRects = super.selectionRectsForRange(range)
+	override func selectionRects(for range: UITextRange) -> [Any] {
+		let selectionRects = super.selectionRects(for: range)
 		return selectionRects.filter({ selection in
 			guard let selection = selection as? UITextSelectionRect else { return false }
 			return selection.rect.size.width > 0
@@ -58,7 +58,11 @@ final class TextView: UITextView {
 
 
 extension TextView: TextControllerAnnotationDelegate {
-	func textController(textController: TextController, willAddAnnotation annotation: Annotation) {
-		insertSubview(annotation.view, atIndex: 0)
+	func textController(_ textController: TextController, willAddAnnotation annotation: Annotation) {
+		insertSubview(annotation.view, at: 0)
+	}
+	
+	// FIXME:  Added the following function to just support the protocol
+	func textController(_ textController: TextController, willRemoveAnnotation annotation: Annotation) {
 	}
 }
