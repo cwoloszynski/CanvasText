@@ -90,10 +90,10 @@ class ExampleTheme: Theme {
 	var tintColor = UIColor.yellow
 
 	/// Primary text color
-	var foregroundColor = UIColor.white
+	var foregroundColor = UIColor.black
 
 	/// Editor background color
-	var backgroundColor = UIColor.black
+	var backgroundColor = UIColor.white
 
 	
 }
