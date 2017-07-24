@@ -12,13 +12,290 @@
 		21AD8C4D1C8A452E000A53F8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 21AD8C471C8A452E000A53F8 /* LaunchScreen.storyboard */; };
 		21AD8C4F1C8A452E000A53F8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21AD8C4A1C8A452E000A53F8 /* ViewController.swift */; };
 		21DF7A511C8FA7A600C17A62 /* TextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21DF7A501C8FA7A600C17A62 /* TextView.swift */; };
+		CB0CE3621F26025D00B539F0 /* X.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CB0CE3551F26023B00B539F0 /* X.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		CB0CE3631F26026300B539F0 /* OperationalTransformation.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CB0CE3431F26023400B539F0 /* OperationalTransformation.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		CB0CE3641F26026C00B539F0 /* Diff.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CB0CE32E1F26022F00B539F0 /* Diff.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		CB0CE3651F26027500B539F0 /* Cache.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CB0CE3121F26022A00B539F0 /* Cache.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CB20DA2B1F23EF89003BCC33 /* ExampleTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB20DA2A1F23EF89003BCC33 /* ExampleTheme.swift */; };
-		CB20DA6D1F257567003BCC33 /* Cache.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CB20DA6C1F257567003BCC33 /* Cache.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		CB20DA6F1F257571003BCC33 /* CanvasNative.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CB20DA6E1F257571003BCC33 /* CanvasNative.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		CB20DA711F257579003BCC33 /* Diff.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CB20DA701F257579003BCC33 /* Diff.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		CB20DA731F25757F003BCC33 /* OperationalTransformation.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CB20DA721F25757F003BCC33 /* OperationalTransformation.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		CB20DA751F25758C003BCC33 /* X.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CB20DA741F25758C003BCC33 /* X.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		CB301D5B1F260184001E4704 /* CanvasNative.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CB301D4B1F260171001E4704 /* CanvasNative.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		CB38FF8B1F260131009FBF34 /* CanvasText.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CB38FF821F2600E6009FBF34 /* CanvasText.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		CB0CE3111F26022A00B539F0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CB0CE30A1F26022A00B539F0 /* Cache.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 21256E2A1CEA6CCD003B9F67;
+			remoteInfo = "Cache-iOS";
+		};
+		CB0CE3131F26022A00B539F0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CB0CE30A1F26022A00B539F0 /* Cache.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 21B505431CFF9E610067FB9A;
+			remoteInfo = "Cache-macOS";
+		};
+		CB0CE3151F26022A00B539F0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CB0CE30A1F26022A00B539F0 /* Cache.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 215DB4E11DC379F800034124;
+			remoteInfo = "Cache-tvOS";
+		};
+		CB0CE3171F26022A00B539F0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CB0CE30A1F26022A00B539F0 /* Cache.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 215DB4EE1DC37A0100034124;
+			remoteInfo = "Cache-watchOS";
+		};
+		CB0CE32D1F26022F00B539F0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CB0CE3231F26022F00B539F0 /* Diff.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 2175D3A51D17267D009C6845;
+			remoteInfo = "Diff-iOS";
+		};
+		CB0CE32F1F26022F00B539F0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CB0CE3231F26022F00B539F0 /* Diff.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 2175D3AF1D17267D009C6845;
+			remoteInfo = "DiffTests-iOS";
+		};
+		CB0CE3311F26022F00B539F0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CB0CE3231F26022F00B539F0 /* Diff.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 2175D3C41D17268C009C6845;
+			remoteInfo = "Diff-macOS";
+		};
+		CB0CE3331F26022F00B539F0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CB0CE3231F26022F00B539F0 /* Diff.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 2175D3CD1D17268C009C6845;
+			remoteInfo = "DiffTests-macOS";
+		};
+		CB0CE3351F26022F00B539F0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CB0CE3231F26022F00B539F0 /* Diff.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 2175D3E01D17269D009C6845;
+			remoteInfo = "Diff-watchOS";
+		};
+		CB0CE3371F26022F00B539F0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CB0CE3231F26022F00B539F0 /* Diff.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 2175D3ED1D1726A8009C6845;
+			remoteInfo = "Diff-tvOS";
+		};
+		CB0CE3391F26022F00B539F0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CB0CE3231F26022F00B539F0 /* Diff.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 2175D3F61D1726A8009C6845;
+			remoteInfo = "DiffTests-tvOS";
+		};
+		CB0CE3421F26023400B539F0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CB0CE33B1F26023400B539F0 /* OperationalTransformation.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 215E6D251C7520BD00126FE9;
+			remoteInfo = "OperationalTransformation-iOS";
+		};
+		CB0CE3441F26023400B539F0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CB0CE33B1F26023400B539F0 /* OperationalTransformation.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 215E6D2F1C7520BD00126FE9;
+			remoteInfo = "OperationalTransformationTests-iOS";
+		};
+		CB0CE3461F26023400B539F0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CB0CE33B1F26023400B539F0 /* OperationalTransformation.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 215E6D531C7532E200126FE9;
+			remoteInfo = "OperationalTransformation-macOS";
+		};
+		CB0CE3481F26023400B539F0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CB0CE33B1F26023400B539F0 /* OperationalTransformation.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 215E6D5C1C7532E200126FE9;
+			remoteInfo = "OperationalTransformationTests-macOS";
+		};
+		CB0CE3541F26023B00B539F0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CB0CE34A1F26023A00B539F0 /* X.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 2118270D1D257C86003F2BF2;
+			remoteInfo = "X-iOS";
+		};
+		CB0CE3561F26023B00B539F0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CB0CE34A1F26023A00B539F0 /* X.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 211827161D257C86003F2BF2;
+			remoteInfo = "XTests-iOS";
+		};
+		CB0CE3581F26023B00B539F0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CB0CE34A1F26023A00B539F0 /* X.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 211827291D257CA2003F2BF2;
+			remoteInfo = "X-macOS";
+		};
+		CB0CE35A1F26023B00B539F0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CB0CE34A1F26023A00B539F0 /* X.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 211827321D257CA2003F2BF2;
+			remoteInfo = "XTests-macOS";
+		};
+		CB0CE35C1F26023B00B539F0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CB0CE34A1F26023A00B539F0 /* X.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 211827451D257CB1003F2BF2;
+			remoteInfo = "X-watchOS";
+		};
+		CB0CE35E1F26023B00B539F0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CB0CE34A1F26023A00B539F0 /* X.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 211827521D257CB7003F2BF2;
+			remoteInfo = "X-tvOS";
+		};
+		CB0CE3601F26023B00B539F0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CB0CE34A1F26023A00B539F0 /* X.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 2118275B1D257CB8003F2BF2;
+			remoteInfo = "XTests-tvOS";
+		};
+		CB0CE3661F26030D00B539F0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CB0CE34A1F26023A00B539F0 /* X.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 2118270C1D257C86003F2BF2;
+			remoteInfo = "X-iOS";
+		};
+		CB0CE3681F26031200B539F0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CB0CE33B1F26023400B539F0 /* OperationalTransformation.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 215E6D241C7520BD00126FE9;
+			remoteInfo = "OperationalTransformation-iOS";
+		};
+		CB0CE36A1F26031800B539F0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CB0CE3231F26022F00B539F0 /* Diff.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 2175D3A41D17267D009C6845;
+			remoteInfo = "Diff-iOS";
+		};
+		CB0CE36C1F26031C00B539F0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CB0CE30A1F26022A00B539F0 /* Cache.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 21256E291CEA6CCD003B9F67;
+			remoteInfo = "Cache-iOS";
+		};
+		CB0CE36E1F26035800B539F0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CB301D401F260171001E4704 /* CanvasNative.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 215BAB2C1C52B0C400118C8C;
+			remoteInfo = "CanvasNative-iOS";
+		};
+		CB301D4A1F260171001E4704 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CB301D401F260171001E4704 /* CanvasNative.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 215BAB2D1C52B0C400118C8C;
+			remoteInfo = "CanvasNative-iOS";
+		};
+		CB301D4C1F260171001E4704 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CB301D401F260171001E4704 /* CanvasNative.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 215BAB371C52B0C400118C8C;
+			remoteInfo = "CanvasNativeTests-iOS";
+		};
+		CB301D4E1F260171001E4704 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CB301D401F260171001E4704 /* CanvasNative.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 215BAB4C1C52B18B00118C8C;
+			remoteInfo = "CanvasNative-macOS";
+		};
+		CB301D501F260171001E4704 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CB301D401F260171001E4704 /* CanvasNative.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 215BAB551C52B18C00118C8C;
+			remoteInfo = "CanvasNativeTests-macOS";
+		};
+		CB301D521F260171001E4704 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CB301D401F260171001E4704 /* CanvasNative.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 21632D161C92366600C40D7D;
+			remoteInfo = "CanvasNative-tvOS";
+		};
+		CB301D541F260171001E4704 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CB301D401F260171001E4704 /* CanvasNative.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 21632D1F1C92366600C40D7D;
+			remoteInfo = "CanvasNativeTests-tvOS";
+		};
+		CB301D561F260171001E4704 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CB301D401F260171001E4704 /* CanvasNative.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 21632CEA1C9235E400C40D7D;
+			remoteInfo = "CanvasNative-watchOS";
+		};
+		CB38FF811F2600E6009FBF34 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CB38FF7A1F2600E6009FBF34 /* CanvasText.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 211483C41C8A3034002CA206;
+			remoteInfo = "CanvasText-iOS";
+		};
+		CB38FF831F2600E6009FBF34 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CB38FF7A1F2600E6009FBF34 /* CanvasText.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 211483CE1C8A3034002CA206;
+			remoteInfo = "CanvasTextTests-iOS";
+		};
+		CB38FF851F2600E6009FBF34 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CB38FF7A1F2600E6009FBF34 /* CanvasText.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 218944931CFFA041003F743B;
+			remoteInfo = "CanvasText-macOS";
+		};
+		CB38FF871F2600E6009FBF34 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CB38FF7A1F2600E6009FBF34 /* CanvasText.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 2189449C1CFFA041003F743B;
+			remoteInfo = "CanvasTextTests-macOS";
+		};
+		CB38FF891F2600F9009FBF34 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CB38FF7A1F2600E6009FBF34 /* CanvasText.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 211483C31C8A3034002CA206;
+			remoteInfo = "CanvasText-iOS";
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		215E6E281C754A7200126FE9 /* Embed Frameworks */ = {
@@ -27,11 +304,12 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				CB20DA731F25757F003BCC33 /* OperationalTransformation.framework in Embed Frameworks */,
-				CB20DA711F257579003BCC33 /* Diff.framework in Embed Frameworks */,
-				CB20DA751F25758C003BCC33 /* X.framework in Embed Frameworks */,
-				CB20DA6F1F257571003BCC33 /* CanvasNative.framework in Embed Frameworks */,
-				CB20DA6D1F257567003BCC33 /* Cache.framework in Embed Frameworks */,
+				CB0CE3651F26027500B539F0 /* Cache.framework in Embed Frameworks */,
+				CB0CE3641F26026C00B539F0 /* Diff.framework in Embed Frameworks */,
+				CB0CE3631F26026300B539F0 /* OperationalTransformation.framework in Embed Frameworks */,
+				CB0CE3621F26025D00B539F0 /* X.framework in Embed Frameworks */,
+				CB301D5B1F260184001E4704 /* CanvasNative.framework in Embed Frameworks */,
+				CB38FF8B1F260131009FBF34 /* CanvasText.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -46,12 +324,13 @@
 		21AD8C491C8A452E000A53F8 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		21AD8C4A1C8A452E000A53F8 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		21DF7A501C8FA7A600C17A62 /* TextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextView.swift; sourceTree = "<group>"; };
+		CB0CE30A1F26022A00B539F0 /* Cache.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Cache.xcodeproj; path = ../Carthage/Checkouts/Cache/Cache.xcodeproj; sourceTree = "<group>"; };
+		CB0CE3231F26022F00B539F0 /* Diff.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Diff.xcodeproj; path = ../Carthage/Checkouts/Diff/Diff.xcodeproj; sourceTree = "<group>"; };
+		CB0CE33B1F26023400B539F0 /* OperationalTransformation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OperationalTransformation.xcodeproj; path = ../Carthage/Checkouts/OperationalTransformation/OperationalTransformation.xcodeproj; sourceTree = "<group>"; };
+		CB0CE34A1F26023A00B539F0 /* X.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = X.xcodeproj; path = ../Carthage/Checkouts/X/X.xcodeproj; sourceTree = "<group>"; };
 		CB20DA2A1F23EF89003BCC33 /* ExampleTheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExampleTheme.swift; sourceTree = "<group>"; };
-		CB20DA6C1F257567003BCC33 /* Cache.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cache.framework; path = ../Carthage/Build/iOS/Cache.framework; sourceTree = "<group>"; };
-		CB20DA6E1F257571003BCC33 /* CanvasNative.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CanvasNative.framework; path = ../Carthage/Build/iOS/CanvasNative.framework; sourceTree = "<group>"; };
-		CB20DA701F257579003BCC33 /* Diff.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Diff.framework; path = ../Carthage/Build/iOS/Diff.framework; sourceTree = "<group>"; };
-		CB20DA721F25757F003BCC33 /* OperationalTransformation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OperationalTransformation.framework; path = ../Carthage/Build/iOS/OperationalTransformation.framework; sourceTree = "<group>"; };
-		CB20DA741F25758C003BCC33 /* X.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = X.framework; path = ../Carthage/Build/iOS/X.framework; sourceTree = "<group>"; };
+		CB301D401F260171001E4704 /* CanvasNative.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CanvasNative.xcodeproj; path = ../Carthage/Checkouts/CanvasNative/CanvasNative.xcodeproj; sourceTree = "<group>"; };
+		CB38FF7A1F2600E6009FBF34 /* CanvasText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CanvasText.xcodeproj; path = ../CanvasText.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +348,12 @@
 			isa = PBXGroup;
 			children = (
 				21AD8C441C8A452E000A53F8 /* Sources */,
+				CB0CE34A1F26023A00B539F0 /* X.xcodeproj */,
+				CB0CE33B1F26023400B539F0 /* OperationalTransformation.xcodeproj */,
+				CB0CE3231F26022F00B539F0 /* Diff.xcodeproj */,
+				CB0CE30A1F26022A00B539F0 /* Cache.xcodeproj */,
+				CB301D401F260171001E4704 /* CanvasNative.xcodeproj */,
+				CB38FF7A1F2600E6009FBF34 /* CanvasText.xcodeproj */,
 				21AD8C771C8A4552000A53F8 /* Vendor */,
 				212D7F8C1C751F0D00CDB574 /* Products */,
 				CB20DA2C1F2536FE003BCC33 /* Frameworks */,
@@ -105,16 +390,86 @@
 			name = Vendor;
 			sourceTree = "<group>";
 		};
+		CB0CE30B1F26022A00B539F0 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CB0CE3121F26022A00B539F0 /* Cache.framework */,
+				CB0CE3141F26022A00B539F0 /* Cache.framework */,
+				CB0CE3161F26022A00B539F0 /* Cache.framework */,
+				CB0CE3181F26022A00B539F0 /* Cache.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		CB0CE3241F26022F00B539F0 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CB0CE32E1F26022F00B539F0 /* Diff.framework */,
+				CB0CE3301F26022F00B539F0 /* DiffTests.xctest */,
+				CB0CE3321F26022F00B539F0 /* Diff.framework */,
+				CB0CE3341F26022F00B539F0 /* DiffTests.xctest */,
+				CB0CE3361F26022F00B539F0 /* Diff.framework */,
+				CB0CE3381F26022F00B539F0 /* Diff.framework */,
+				CB0CE33A1F26022F00B539F0 /* DiffTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		CB0CE33C1F26023400B539F0 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CB0CE3431F26023400B539F0 /* OperationalTransformation.framework */,
+				CB0CE3451F26023400B539F0 /* OperationalTransformation.xctest */,
+				CB0CE3471F26023400B539F0 /* OperationalTransformation.framework */,
+				CB0CE3491F26023400B539F0 /* OperationalTransformation.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		CB0CE34B1F26023A00B539F0 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CB0CE3551F26023B00B539F0 /* X.framework */,
+				CB0CE3571F26023B00B539F0 /* XTests.xctest */,
+				CB0CE3591F26023B00B539F0 /* X.framework */,
+				CB0CE35B1F26023B00B539F0 /* XTests.xctest */,
+				CB0CE35D1F26023B00B539F0 /* X.framework */,
+				CB0CE35F1F26023B00B539F0 /* X.framework */,
+				CB0CE3611F26023B00B539F0 /* XTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		CB20DA2C1F2536FE003BCC33 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				CB20DA741F25758C003BCC33 /* X.framework */,
-				CB20DA721F25757F003BCC33 /* OperationalTransformation.framework */,
-				CB20DA701F257579003BCC33 /* Diff.framework */,
-				CB20DA6E1F257571003BCC33 /* CanvasNative.framework */,
-				CB20DA6C1F257567003BCC33 /* Cache.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		CB301D411F260171001E4704 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CB301D4B1F260171001E4704 /* CanvasNative.framework */,
+				CB301D4D1F260171001E4704 /* CanvasNativeTests.xctest */,
+				CB301D4F1F260171001E4704 /* CanvasNative.framework */,
+				CB301D511F260171001E4704 /* CanvasNativeTests.xctest */,
+				CB301D531F260171001E4704 /* CanvasNative.framework */,
+				CB301D551F260171001E4704 /* CanvasNativeTests.xctest */,
+				CB301D571F260171001E4704 /* CanvasNative.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		CB38FF7B1F2600E6009FBF34 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CB38FF821F2600E6009FBF34 /* CanvasText.framework */,
+				CB38FF841F2600E6009FBF34 /* CanvasTextTests.xctest */,
+				CB38FF861F2600E6009FBF34 /* CanvasText.framework */,
+				CB38FF881F2600E6009FBF34 /* CanvasTextTests-macOS.xctest */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -132,6 +487,12 @@
 			buildRules = (
 			);
 			dependencies = (
+				CB0CE36F1F26035800B539F0 /* PBXTargetDependency */,
+				CB0CE36D1F26031C00B539F0 /* PBXTargetDependency */,
+				CB0CE36B1F26031800B539F0 /* PBXTargetDependency */,
+				CB0CE3691F26031200B539F0 /* PBXTargetDependency */,
+				CB0CE3671F26030D00B539F0 /* PBXTargetDependency */,
+				CB38FF8A1F2600F9009FBF34 /* PBXTargetDependency */,
 			);
 			name = Example;
 			productName = Example;
@@ -166,12 +527,272 @@
 			mainGroup = 212D7F821C751F0D00CDB574;
 			productRefGroup = 212D7F8C1C751F0D00CDB574 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = CB0CE30B1F26022A00B539F0 /* Products */;
+					ProjectRef = CB0CE30A1F26022A00B539F0 /* Cache.xcodeproj */;
+				},
+				{
+					ProductGroup = CB301D411F260171001E4704 /* Products */;
+					ProjectRef = CB301D401F260171001E4704 /* CanvasNative.xcodeproj */;
+				},
+				{
+					ProductGroup = CB38FF7B1F2600E6009FBF34 /* Products */;
+					ProjectRef = CB38FF7A1F2600E6009FBF34 /* CanvasText.xcodeproj */;
+				},
+				{
+					ProductGroup = CB0CE3241F26022F00B539F0 /* Products */;
+					ProjectRef = CB0CE3231F26022F00B539F0 /* Diff.xcodeproj */;
+				},
+				{
+					ProductGroup = CB0CE33C1F26023400B539F0 /* Products */;
+					ProjectRef = CB0CE33B1F26023400B539F0 /* OperationalTransformation.xcodeproj */;
+				},
+				{
+					ProductGroup = CB0CE34B1F26023A00B539F0 /* Products */;
+					ProjectRef = CB0CE34A1F26023A00B539F0 /* X.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				212D7F8A1C751F0D00CDB574 /* Example */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		CB0CE3121F26022A00B539F0 /* Cache.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Cache.framework;
+			remoteRef = CB0CE3111F26022A00B539F0 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CB0CE3141F26022A00B539F0 /* Cache.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Cache.framework;
+			remoteRef = CB0CE3131F26022A00B539F0 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CB0CE3161F26022A00B539F0 /* Cache.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Cache.framework;
+			remoteRef = CB0CE3151F26022A00B539F0 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CB0CE3181F26022A00B539F0 /* Cache.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Cache.framework;
+			remoteRef = CB0CE3171F26022A00B539F0 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CB0CE32E1F26022F00B539F0 /* Diff.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Diff.framework;
+			remoteRef = CB0CE32D1F26022F00B539F0 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CB0CE3301F26022F00B539F0 /* DiffTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = DiffTests.xctest;
+			remoteRef = CB0CE32F1F26022F00B539F0 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CB0CE3321F26022F00B539F0 /* Diff.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Diff.framework;
+			remoteRef = CB0CE3311F26022F00B539F0 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CB0CE3341F26022F00B539F0 /* DiffTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = DiffTests.xctest;
+			remoteRef = CB0CE3331F26022F00B539F0 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CB0CE3361F26022F00B539F0 /* Diff.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Diff.framework;
+			remoteRef = CB0CE3351F26022F00B539F0 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CB0CE3381F26022F00B539F0 /* Diff.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Diff.framework;
+			remoteRef = CB0CE3371F26022F00B539F0 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CB0CE33A1F26022F00B539F0 /* DiffTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = DiffTests.xctest;
+			remoteRef = CB0CE3391F26022F00B539F0 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CB0CE3431F26023400B539F0 /* OperationalTransformation.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = OperationalTransformation.framework;
+			remoteRef = CB0CE3421F26023400B539F0 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CB0CE3451F26023400B539F0 /* OperationalTransformation.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = OperationalTransformation.xctest;
+			remoteRef = CB0CE3441F26023400B539F0 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CB0CE3471F26023400B539F0 /* OperationalTransformation.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = OperationalTransformation.framework;
+			remoteRef = CB0CE3461F26023400B539F0 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CB0CE3491F26023400B539F0 /* OperationalTransformation.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = OperationalTransformation.xctest;
+			remoteRef = CB0CE3481F26023400B539F0 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CB0CE3551F26023B00B539F0 /* X.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = X.framework;
+			remoteRef = CB0CE3541F26023B00B539F0 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CB0CE3571F26023B00B539F0 /* XTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = XTests.xctest;
+			remoteRef = CB0CE3561F26023B00B539F0 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CB0CE3591F26023B00B539F0 /* X.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = X.framework;
+			remoteRef = CB0CE3581F26023B00B539F0 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CB0CE35B1F26023B00B539F0 /* XTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = XTests.xctest;
+			remoteRef = CB0CE35A1F26023B00B539F0 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CB0CE35D1F26023B00B539F0 /* X.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = X.framework;
+			remoteRef = CB0CE35C1F26023B00B539F0 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CB0CE35F1F26023B00B539F0 /* X.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = X.framework;
+			remoteRef = CB0CE35E1F26023B00B539F0 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CB0CE3611F26023B00B539F0 /* XTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = XTests.xctest;
+			remoteRef = CB0CE3601F26023B00B539F0 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CB301D4B1F260171001E4704 /* CanvasNative.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = CanvasNative.framework;
+			remoteRef = CB301D4A1F260171001E4704 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CB301D4D1F260171001E4704 /* CanvasNativeTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = CanvasNativeTests.xctest;
+			remoteRef = CB301D4C1F260171001E4704 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CB301D4F1F260171001E4704 /* CanvasNative.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = CanvasNative.framework;
+			remoteRef = CB301D4E1F260171001E4704 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CB301D511F260171001E4704 /* CanvasNativeTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = CanvasNativeTests.xctest;
+			remoteRef = CB301D501F260171001E4704 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CB301D531F260171001E4704 /* CanvasNative.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = CanvasNative.framework;
+			remoteRef = CB301D521F260171001E4704 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CB301D551F260171001E4704 /* CanvasNativeTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = CanvasNativeTests.xctest;
+			remoteRef = CB301D541F260171001E4704 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CB301D571F260171001E4704 /* CanvasNative.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = CanvasNative.framework;
+			remoteRef = CB301D561F260171001E4704 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CB38FF821F2600E6009FBF34 /* CanvasText.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = CanvasText.framework;
+			remoteRef = CB38FF811F2600E6009FBF34 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CB38FF841F2600E6009FBF34 /* CanvasTextTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = CanvasTextTests.xctest;
+			remoteRef = CB38FF831F2600E6009FBF34 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CB38FF861F2600E6009FBF34 /* CanvasText.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = CanvasText.framework;
+			remoteRef = CB38FF851F2600E6009FBF34 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CB38FF881F2600E6009FBF34 /* CanvasTextTests-macOS.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "CanvasTextTests-macOS.xctest";
+			remoteRef = CB38FF871F2600E6009FBF34 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		212D7F891C751F0D00CDB574 /* Resources */ = {
@@ -198,6 +819,39 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		CB0CE3671F26030D00B539F0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "X-iOS";
+			targetProxy = CB0CE3661F26030D00B539F0 /* PBXContainerItemProxy */;
+		};
+		CB0CE3691F26031200B539F0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "OperationalTransformation-iOS";
+			targetProxy = CB0CE3681F26031200B539F0 /* PBXContainerItemProxy */;
+		};
+		CB0CE36B1F26031800B539F0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Diff-iOS";
+			targetProxy = CB0CE36A1F26031800B539F0 /* PBXContainerItemProxy */;
+		};
+		CB0CE36D1F26031C00B539F0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Cache-iOS";
+			targetProxy = CB0CE36C1F26031C00B539F0 /* PBXContainerItemProxy */;
+		};
+		CB0CE36F1F26035800B539F0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "CanvasNative-iOS";
+			targetProxy = CB0CE36E1F26035800B539F0 /* PBXContainerItemProxy */;
+		};
+		CB38FF8A1F2600F9009FBF34 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "CanvasText-iOS";
+			targetProxy = CB38FF891F2600F9009FBF34 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		21AD8C471C8A452E000A53F8 /* LaunchScreen.storyboard */ = {
