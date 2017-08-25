@@ -1,0 +1,65 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "3931294E248CD949260E9FAD65D4409F5C38C48D",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "3931294E248CD949260E9FAD65D4409F5C38C48D" : 9223372036854775807,
+    "268AC9DFDE1BE382D3410651EB4DFFF57F23212A" : 9223372036854775807,
+    "673E0B6CD7FE3F49C266006074302612E319D4DF" : 9223372036854775807,
+    "82D7A9420B96A18BB9D89D8F0CB21E64B3D8C5C6" : 9223372036854775807,
+    "D62F8CB05C348EDC55176CC7027CC54077335A17" : 9223372036854775807,
+    "D05CC9A59905EC7D6116CB964A162C99E7D245FF" : 9223372036854775807,
+    "39F550BFBAE1E7ED2C24891CB434942744E64D3A" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "BBC3D33B-CB60-4DD5-B044-4581891912F2",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "3931294E248CD949260E9FAD65D4409F5C38C48D" : "CanvasText\/",
+    "268AC9DFDE1BE382D3410651EB4DFFF57F23212A" : "Diff\/",
+    "673E0B6CD7FE3F49C266006074302612E319D4DF" : "Cache\/",
+    "82D7A9420B96A18BB9D89D8F0CB21E64B3D8C5C6" : "OperationalTransformation\/",
+    "D62F8CB05C348EDC55176CC7027CC54077335A17" : "X\/",
+    "D05CC9A59905EC7D6116CB964A162C99E7D245FF" : "CanvasNative\/",
+    "39F550BFBAE1E7ED2C24891CB434942744E64D3A" : "..\/.."
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "CanvasText",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "CanvasText.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/cwoloszynski\/Diff.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "268AC9DFDE1BE382D3410651EB4DFFF57F23212A"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/cwoloszynski\/CanvasText.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "3931294E248CD949260E9FAD65D4409F5C38C48D"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/bitbucket.org\/cwoloszynski\/teamcanvas.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "39F550BFBAE1E7ED2C24891CB434942744E64D3A"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/cwoloszynski\/Cache.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "673E0B6CD7FE3F49C266006074302612E319D4DF"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/cwoloszynski\/OperationalTransformation.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "82D7A9420B96A18BB9D89D8F0CB21E64B3D8C5C6"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/cwoloszynski\/CanvasNative.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "D05CC9A59905EC7D6116CB964A162C99E7D245FF"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/cwoloszynski\/X.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "D62F8CB05C348EDC55176CC7027CC54077335A17"
+    }
+  ]
+}
