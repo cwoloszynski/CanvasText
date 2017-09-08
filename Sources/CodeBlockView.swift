@@ -99,8 +99,8 @@ final class CodeBlockView: ViewType, Annotation {
 		}
 	}
 
-	override func traitCollectionDidChange(_ previousTraitOrganization: UITraitCollection?) {
-		super.traitCollectionDidChange(previousTraitOrganization)
+	override func traitCollectionDidChange(_ previousTrait: UITraitCollection?) {
+		super.traitCollectionDidChange(previousTrait)
 
 		guard let codeBlock = block as? CodeBlock else { return }
 

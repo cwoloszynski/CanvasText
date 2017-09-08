@@ -131,7 +131,7 @@ public final class TextController: NSObject {
 
 	let serverURL: URL
 	let accessToken: String
-	let organizationID: String
+	let projectID: String
 	let canvasID: String
 
 	fileprivate var needsTitle = false
@@ -142,10 +142,10 @@ public final class TextController: NSObject {
 
 	// MARK: - Initializers
 
-	public init(serverURL: URL, accessToken: String, organizationID: String, canvasID: String, theme: Theme) {
+	public init(serverURL: URL, accessToken: String, projectID: String, canvasID: String, theme: Theme) {
 		self.serverURL = serverURL
 		self.accessToken = accessToken
-		self.organizationID = organizationID
+		self.projectID = projectID
 		self.canvasID = canvasID
 		self.theme = theme
 		imagesController = ImagesController(theme: theme)
@@ -177,7 +177,7 @@ public final class TextController: NSObject {
 			print("[TextController] WARNING: connectionDelegate is nil. If you don't add the web view from textController:willConnectWithWebView: to a view, Operation Transport won't work as expected.")
 		}
 
-		let transportController = TransportController(serverURL: serverURL, accessToken: accessToken, organizationID: organizationID, canvasID: canvasID)
+		let transportController = TransportController(serverURL: serverURL, accessToken: accessToken, projectID: projectID, canvasID: canvasID)
 		transportController.delegate = self
 		transportController.connect()
 		self.transportController = transportController
