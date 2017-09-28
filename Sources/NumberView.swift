@@ -53,11 +53,11 @@ final class NumberView: ViewType, Annotation {
 
 		let string: NSString = "\(block.number)." as NSString
 		let attributes = [
-			NSForegroundColorAttributeName: theme.orderedListItemNumberColor,
-			NSFontAttributeName: TextStyle.body.font().fontWithMonospacedNumbers
+            NSAttributedStringKey.foregroundColor: theme.orderedListItemNumberColor,
+            NSAttributedStringKey.font: TextStyle.body.font().fontWithMonospacedNumbers
 		]
 
-		let size = string.size(attributes: attributes)
+        let size = string.size(withAttributes: attributes)
 
 		// TODO: It would be better if we could calculate this from the font
 		let rect = CGRect(

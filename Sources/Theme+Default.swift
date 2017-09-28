@@ -22,26 +22,26 @@ extension Theme {
 
 	fileprivate var listIndentation: CGFloat {
 		let font = UIFont.preferredFont(forTextStyle: UIFontTextStyle.body)
-		return ("      " as NSString).size(attributes: [NSFontAttributeName: font]).width
+        return ("      " as NSString).size(withAttributes: [NSAttributedStringKey.font: font]).width
 	}
 
 	public var baseAttributes: Attributes {
 		return [
-			NSForegroundColorAttributeName: foregroundColor,
-			NSFontAttributeName: TextStyle.body.font()
+            NSAttributedStringKey.foregroundColor: foregroundColor,
+            NSAttributedStringKey.font: TextStyle.body.font()
 		]
 	}
 
 	public var titleAttributes: Attributes {
 		var attributes = baseAttributes
-		attributes[NSForegroundColorAttributeName] = foregroundColor
-		attributes[NSFontAttributeName] = TextStyle.title1.font(weight: .semibold)
+        attributes[NSAttributedStringKey.foregroundColor] = foregroundColor
+        attributes[NSAttributedStringKey.font] = TextStyle.title1.font(weight: .semibold)
 		return attributes
 	}
 
 	public func foldingAttributes(parentAttributes: Attributes) -> Attributes {
 		var attributes = parentAttributes
-		attributes[NSForegroundColorAttributeName] = foldedColor
+        attributes[NSAttributedStringKey.foregroundColor] = foldedColor
 		return attributes
 	}
 
@@ -126,74 +126,74 @@ extension Theme {
 		if let heading = block as? Heading {
 			switch heading.level {
 			case .one:
-				attributes[NSForegroundColorAttributeName] = headingOneColor
-				attributes[NSFontAttributeName] = TextStyle.title1.font(weight: .medium)
+                attributes[NSAttributedStringKey.foregroundColor] = headingOneColor
+                attributes[NSAttributedStringKey.font] = TextStyle.title1.font(weight: .medium)
 			case .two:
-				attributes[NSForegroundColorAttributeName] = headingTwoColor
-				attributes[NSFontAttributeName] = TextStyle.title2.font(weight: .medium)
+                attributes[NSAttributedStringKey.foregroundColor] = headingTwoColor
+                attributes[NSAttributedStringKey.font] = TextStyle.title2.font(weight: .medium)
 			case .three:
-				attributes[NSForegroundColorAttributeName] = headingThreeColor
-				attributes[NSFontAttributeName] = TextStyle.title3.font(weight: .medium)
+                attributes[NSAttributedStringKey.foregroundColor] = headingThreeColor
+                attributes[NSAttributedStringKey.font] = TextStyle.title3.font(weight: .medium)
 			case .four:
-				attributes[NSForegroundColorAttributeName] = headingFourColor
-				attributes[NSFontAttributeName] = TextStyle.headline.font(weight: .medium)
+                attributes[NSAttributedStringKey.foregroundColor] = headingFourColor
+                attributes[NSAttributedStringKey.font] = TextStyle.headline.font(weight: .medium)
 			case .five:
-				attributes[NSForegroundColorAttributeName] = headingFiveColor
-				attributes[NSFontAttributeName] = TextStyle.headline.font(weight: .medium)
+                attributes[NSAttributedStringKey.foregroundColor] = headingFiveColor
+                attributes[NSAttributedStringKey.font] = TextStyle.headline.font(weight: .medium)
 			case .six:
-				attributes[NSForegroundColorAttributeName] = headingSixColor
-				attributes[NSFontAttributeName] = TextStyle.headline.font(weight: .medium)
+                attributes[NSAttributedStringKey.foregroundColor] = headingSixColor
+                attributes[NSAttributedStringKey.font] = TextStyle.headline.font(weight: .medium)
 			}
 		}
 
 		else if block is CodeBlock {
-			attributes[NSForegroundColorAttributeName] = codeColor
-			attributes[NSFontAttributeName] = TextStyle.body.monoSpaceFont()
+            attributes[NSAttributedStringKey.foregroundColor] = codeColor
+            attributes[NSAttributedStringKey.font] = TextStyle.body.monoSpaceFont()
 
 			// Indent wrapped lines in code blocks
 			let paragraph = NSMutableParagraphStyle()
 			paragraph.headIndent = floor(fontSize * 1.2) + 0.5
-			attributes[NSParagraphStyleAttributeName] = paragraph
+            attributes[NSAttributedStringKey.paragraphStyle] = paragraph
 		}
 
 		else if block is Blockquote {
-			attributes[NSForegroundColorAttributeName] = blockquoteColor
+            attributes[NSAttributedStringKey.foregroundColor] = blockquoteColor
 		}
 
 		return attributes
 	}
 
 	public func attributes(span: SpanNode, parentAttributes: Attributes) -> Attributes? {
-		guard let currentFont = parentAttributes[NSFontAttributeName] as? X.Font else { return nil }
+        guard let currentFont = parentAttributes[NSAttributedStringKey.font] as? X.Font else { return nil }
 		var traits = currentFont.symbolicTraits
 		var attributes = parentAttributes
 
 		if span is CodeSpan {
 			let monoSpaceFont = UIFont(name: "Menlo", size: currentFont.pointSize * 0.9)!
 			let font = applySymbolicTraits(traits, toFont: monoSpaceFont)
-			attributes[NSFontAttributeName] = font
-			attributes[NSForegroundColorAttributeName] = codeSpanColor
-			attributes[NSBackgroundColorAttributeName] = codeSpanBackgroundColor
+            attributes[NSAttributedStringKey.font] = font
+            attributes[NSAttributedStringKey.foregroundColor] = codeSpanColor
+            attributes[NSAttributedStringKey.backgroundColor] = codeSpanBackgroundColor
 		}
 
 		else if span is Strikethrough {
-			attributes[NSStrikethroughStyleAttributeName] = NSUnderlineStyle.styleThick.rawValue as AnyObject
-			attributes[NSStrikethroughColorAttributeName] = strikethroughColor
-			attributes[NSForegroundColorAttributeName] = strikethroughColor
+            attributes[NSAttributedStringKey.strikethroughStyle] = NSUnderlineStyle.styleThick
+            attributes[NSAttributedStringKey.strikethroughColor] = strikethroughColor
+            attributes[NSAttributedStringKey.foregroundColor] = strikethroughColor
 		}
 
 		else if span is DoubleEmphasis {
 			traits.insert(.traitBold)
-			attributes[NSFontAttributeName] = applySymbolicTraits(traits, toFont: currentFont)
+            attributes[NSAttributedStringKey.font] = applySymbolicTraits(traits, toFont: currentFont)
 		}
 
 		else if span is Emphasis {
 			traits.insert(.traitItalic)
-			attributes[NSFontAttributeName] = applySymbolicTraits(traits, toFont: currentFont)
+            attributes[NSAttributedStringKey.font] = applySymbolicTraits(traits, toFont: currentFont)
 		}
 
 		else if span is Link {
-			attributes[NSForegroundColorAttributeName] = tintColor
+            attributes[NSAttributedStringKey.foregroundColor] = tintColor
 		}
 
 		// If there aren't any attributes set yet, return nil and inherit from parent.

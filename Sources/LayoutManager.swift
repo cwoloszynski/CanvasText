@@ -176,12 +176,12 @@ class LayoutManager: NSLayoutManager {
 extension LayoutManager: NSLayoutManagerDelegate {
 	// Mark folded characters as control characters so we can give them a zero width in
 	// `layoutManager:shouldUseAction:forControlCharacterAtIndex:`.
-	func layoutManager(_ layoutManager: NSLayoutManager, shouldGenerateGlyphs glyphs: UnsafePointer<CGGlyph>, properties props: UnsafePointer<NSGlyphProperty>, characterIndexes: UnsafePointer<Int>, font: Font, forGlyphRange glyphRange: NSRange) -> Int {
+    internal func layoutManager(_ layoutManager: NSLayoutManager, shouldGenerateGlyphs glyphs: UnsafePointer<CGGlyph>, properties props: UnsafePointer<NSLayoutManager.GlyphProperty>, characterIndexes: UnsafePointer<Int>, font: Font, forGlyphRange glyphRange: NSRange) -> Int {
 		if foldedIndices.isEmpty {
 			return 0
 		}
 
-		let properties = UnsafeMutablePointer<NSGlyphProperty>(mutating: props)
+        let properties = UnsafeMutablePointer<NSLayoutManager.GlyphProperty>(mutating: props)
 
 		var changed = false
 		for i in 0..<glyphRange.length {
@@ -207,7 +207,7 @@ extension LayoutManager: NSLayoutManagerDelegate {
 	}
 
 	// Folded characters should have a zero width
-	func layoutManager(_ layoutManager: NSLayoutManager, shouldUse action: NSControlCharacterAction, forControlCharacterAt characterIndex: Int) -> NSControlCharacterAction {
+    internal func layoutManager(_ layoutManager: NSLayoutManager, shouldUse action: NSLayoutManager.ControlCharacterAction, forControlCharacterAt characterIndex: Int) -> NSLayoutManager.ControlCharacterAction {
 		// Don't advance if it's a control character we changed
 		if foldedIndices.contains(characterIndex) {
 			return .zeroAdvancement

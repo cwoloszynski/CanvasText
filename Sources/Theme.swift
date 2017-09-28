@@ -15,7 +15,7 @@
 import CanvasNative
 import X
 
-public typealias Attributes = [String: AnyObject]
+public typealias Attributes = [NSAttributedStringKey: Any]
 
 public protocol Theme {
 

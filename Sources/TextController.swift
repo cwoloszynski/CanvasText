@@ -254,7 +254,7 @@ public final class TextController: NSObject {
 				continue
 			}
 			
-			textStorage.setAttributes(style.attributes, range: style.range)
+            textStorage.setAttributes(style.attributes, range: style.range)
 		}
 		
 		styles.removeAll()
@@ -424,7 +424,7 @@ public final class TextController: NSObject {
 				if let foldable = span as? Foldable {
 					// Forward the background color
 					var attrs = foldableAttributes
-					attrs[NSBackgroundColorAttributeName] = attributes[NSBackgroundColorAttributeName]
+                    attrs[NSAttributedStringKey.backgroundColor] = attributes[NSAttributedStringKey.backgroundColor]
 
 					for backingRange in foldable.foldableRanges {
 						let style = Style(
@@ -440,7 +440,7 @@ public final class TextController: NSObject {
 				// attributes or at least have a style controller for all of this logic.
 				if let link = span as? Link {
 					var attrs = foldableAttributes
-					attrs[NSForegroundColorAttributeName] = theme.linkURLColor
+                    attrs[NSAttributedStringKey.foregroundColor] = theme.linkURLColor
 
 					styles.append(Style(range: currentDocument.presentationRange(backingRange: link.urlRange), attributes: attrs))
 
@@ -530,7 +530,7 @@ public final class TextController: NSObject {
 		
 		let range = currentDocument.presentationRange(block: block)
 		return Style(range: range, attributes: [
-			NSAttachmentAttributeName: attachment
+            NSAttributedStringKey.attachment: attachment
 		])
 	}
 	
@@ -564,7 +564,7 @@ public final class TextController: NSObject {
 		
 		let range = currentDocument.presentationRange(block: block)
 		let style = Style(range: range, attributes: [
-			NSAttachmentAttributeName: attachment
+            NSAttributedStringKey.attachment: attachment
 		])
 		
 		styles.append(style)

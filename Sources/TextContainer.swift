@@ -45,7 +45,7 @@ class TextContainer: NSTextContainer {
 		var rect = proposedRect
 
 		if let textController = textController, let block = textController.currentDocument.blockAt(presentationLocation: index) {
-			if block is Attachable, let attachment = layoutManager?.textStorage?.attribute(NSAttachmentAttributeName, at: index, effectiveRange: nil) as? NSTextAttachment {
+            if block is Attachable, let attachment = layoutManager?.textStorage?.attribute(NSAttributedStringKey.attachment, at: index, effectiveRange: nil) as? NSTextAttachment {
 				let imageSize = attachment.bounds.size
 				rect.origin.y = ceil(rect.origin.y)
 				rect.origin.x += floor((size.width - imageSize.width) / 2)
