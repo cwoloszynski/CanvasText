@@ -120,7 +120,7 @@ extension TextController {
 		var range = NSRange(location: -1, length: 0)
 
 		for block in blocks {
-			if block is Title {
+			if block is DocumentTitle {
 				range = block.visibleRange
 				continue
 			}
@@ -144,7 +144,7 @@ extension TextController {
 	}
 
 	public func swapLineUp() {
-		guard var selection = presentationSelectedRange, let block = focusedBlock, !(block is Title) else { return }
+		guard var selection = presentationSelectedRange, let block = focusedBlock, !(block is DocumentTitle) else { return }
 
 		let document = currentDocument
 
@@ -163,7 +163,7 @@ extension TextController {
 	}
 
 	public func swapLineDown() {
-		guard var selection = presentationSelectedRange, let block = focusedBlock, !(block is Title) else { return }
+		guard var selection = presentationSelectedRange, let block = focusedBlock, !(block is DocumentTitle) else { return }
 
 		let document = currentDocument
 

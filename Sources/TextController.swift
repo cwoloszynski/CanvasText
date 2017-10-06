@@ -177,7 +177,7 @@ public final class TextController: NSObject {
 			print("[TextController] WARNING: connectionDelegate is nil. If you don't add the web view from textController:willConnectWithWebView: to a view, Operation Transport won't work as expected.")
 		}
 
-		let transportController = TransportController(serverURL: serverURL, accessToken: accessToken, projectID: projectID, canvasID: canvasID)
+		let transportController = TransportController(/* serverURL: serverURL, accessToken: accessToken, */ projectID: projectID, canvasID: canvasID)
 		transportController.delegate = self
 		transportController.connect()
 		self.transportController = transportController
@@ -586,7 +586,7 @@ extension TextController: TransportControllerDelegate {
 		// Ensure we have a valid document
 		var string = text
 		if string.isEmpty {
-			string = Title.nativeRepresentation()
+			string = DocumentTitle.nativeRepresentation()  // Submit blank title name to remote server
 			submitOperations(backingRange: bounds, string: string)
 		}
 

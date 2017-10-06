@@ -117,7 +117,7 @@ extension Theme {
 	}
 
 	public func attributes(block: BlockNode) -> Attributes {
-		if block is Title {
+		if block is DocumentTitle {
 			return titleAttributes
 		}
 
