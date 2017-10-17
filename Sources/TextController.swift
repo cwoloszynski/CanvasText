@@ -125,6 +125,8 @@ public final class TextController: NSObject {
 
 	fileprivate let documentController = DocumentController()
 
+    fileprivate var persistenceController: PersistenceController
+    
 	public var currentDocument: Document {
 		return documentController.document
 	}
@@ -151,7 +153,8 @@ public final class TextController: NSObject {
 		imagesController = ImagesController(theme: theme)
 
 		annotationsController = AnnotationsController(theme: theme)
-		
+        self.persistenceController = PersistenceController(id: canvasID, projectId: projectID)
+        
 		super.init()
 		
 		annotationsController.textController = self
@@ -167,6 +170,17 @@ public final class TextController: NSObject {
 		textStorage.addLayoutManager(layoutManager)
 
 		documentController.delegate = self
+        
+        // And initialize the document locally
+        let backingString = persistenceController.getContents()
+        let bounds = NSRange(location: 0, length: (currentDocument.backingString as NSString).length)
+
+        setNeedsTitleUpdate()
+        displayDelegate?.textControllerWillProcessRemoteEdit(self)
+        documentController.replaceCharactersInRange(bounds, withString: backingString)
+        displayDelegate?.textControllerDidProcessRemoteEdit(self)
+        applyStyles()
+        annotationsController.layoutAnnotations()        
 	}
 
 
@@ -576,6 +590,7 @@ public final class TextController: NSObject {
 
 extension TextController: TransportControllerDelegate {
 
+    // This probably needs to be replaced with a didConnect() and drop the web view stuff
 	public func transportController(_ controller: TransportController, willConnectWithWebView webView: WKWebView) {
 		connectionDelegate?.textController(self, willConnectWithWebView: webView)
 	}
@@ -593,6 +608,7 @@ extension TextController: TransportControllerDelegate {
 		setNeedsTitleUpdate()
 		displayDelegate?.textControllerWillProcessRemoteEdit(self)
 		documentController.replaceCharactersInRange(bounds, withString: string)
+        persistenceController.updateContents(contents: currentDocument.backingString)
 		connectionDelegate?.textControllerDidConnect(self)
 		displayDelegate?.textControllerDidProcessRemoteEdit(self)
 		
@@ -614,6 +630,7 @@ extension TextController: TransportControllerDelegate {
 			documentController.replaceCharactersInRange(range, withString: "")
 		}
 
+        persistenceController.updateContents(contents: currentDocument.backingString)
 		displayDelegate?.textControllerDidProcessRemoteEdit(self)
 	} 
 
@@ -702,6 +719,7 @@ extension TextController: DocumentControllerDelegate {
 	public func documentControllerDidUpdateDocument(_ controller: DocumentController) {
 		textStorage.endEditing()
 		updateTitleIfNeeded(controller)
+        persistenceController.updateContents(contents: currentDocument.backingString)
 		
 		DispatchQueue.main.async { [weak self] in
 			self?.invalidateLayoutIfNeeded()

@@ -91,11 +91,14 @@
 		21F7EEEC1CD7F77D004E80E2 /* SelectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F7EEEB1CD7F77D004E80E2 /* SelectionController.swift */; };
 		21F7EEEF1CD7F833004E80E2 /* SelectionControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F7EEED1CD7F82F004E80E2 /* SelectionControllerTests.swift */; };
 		21F7EEF11CD7F8EA004E80E2 /* NSRange+CanvasTextTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F7EEF01CD7F8EA004E80E2 /* NSRange+CanvasTextTests.swift */; };
+		CB2B56001F95399900BD8630 /* Double+TimeInterval.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB2B55FF1F95399900BD8630 /* Double+TimeInterval.swift */; };
 		CB453C991F501D89008F4B27 /* Cache.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB453C481F501D1A008F4B27 /* Cache.framework */; };
 		CB453C9A1F501D8D008F4B27 /* Diff.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB453C331F501D0B008F4B27 /* Diff.framework */; };
 		CB453C9B1F501D97008F4B27 /* CanvasNative.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB453C5B1F501D22008F4B27 /* CanvasNative.framework */; };
 		CB453C9C1F501DAA008F4B27 /* OperationalTransformation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB453C701F501D2E008F4B27 /* OperationalTransformation.framework */; };
 		CB453C9D1F501DB1008F4B27 /* X.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB453C821F501D3F008F4B27 /* X.framework */; };
+		CBFA3FBA1F925BDC004E9E1D /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBFA3FB91F925BDC004E9E1D /* PersistenceController.swift */; };
+		CBFA3FBB1F925BDC004E9E1D /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBFA3FB91F925BDC004E9E1D /* PersistenceController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -433,11 +436,13 @@
 		21F7EEEB1CD7F77D004E80E2 /* SelectionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectionController.swift; sourceTree = "<group>"; };
 		21F7EEED1CD7F82F004E80E2 /* SelectionControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectionControllerTests.swift; sourceTree = "<group>"; };
 		21F7EEF01CD7F8EA004E80E2 /* NSRange+CanvasTextTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSRange+CanvasTextTests.swift"; sourceTree = "<group>"; };
+		CB2B55FF1F95399900BD8630 /* Double+TimeInterval.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+TimeInterval.swift"; sourceTree = "<group>"; };
 		CB453C281F501D0B008F4B27 /* Diff.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Diff.xcodeproj; path = ../Diff/Diff.xcodeproj; sourceTree = "<group>"; };
 		CB453C401F501D19008F4B27 /* Cache.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Cache.xcodeproj; path = ../Cache/Cache.xcodeproj; sourceTree = "<group>"; };
 		CB453C4F1F501D22008F4B27 /* CanvasNative.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CanvasNative.xcodeproj; path = ../CanvasNative/CanvasNative.xcodeproj; sourceTree = "<group>"; };
 		CB453C681F501D2E008F4B27 /* OperationalTransformation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OperationalTransformation.xcodeproj; path = ../OperationalTransformation/OperationalTransformation.xcodeproj; sourceTree = "<group>"; };
 		CB453C771F501D3F008F4B27 /* X.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = X.xcodeproj; path = ../X/X.xcodeproj; sourceTree = "<group>"; };
+		CBFA3FB91F925BDC004E9E1D /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -533,6 +538,7 @@
 		21AD8C1C1C8A430B000A53F8 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				CBFA3FA01F925BBC004E9E1D /* PersistenceController */,
 				21F7EEEA1CD7E98A004E80E2 /* Text Controller */,
 				21AD8CFE1C8A4869000A53F8 /* Text Kit */,
 				21AD8C841C8A45FC000A53F8 /* Theme */,
@@ -610,6 +616,7 @@
 				21DF7A4B1C8FA3A300C17A62 /* CodeBlock+CanvasText.swift */,
 				214F9FF41CC6C9EC00927A07 /* Listable+CanvasText.swift */,
 				2122BFD71CFE35EB00A038DE /* NSURL+CanvasText.swift */,
+				CB2B55FF1F95399900BD8630 /* Double+TimeInterval.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -720,6 +727,14 @@
 				CB453C8E1F501D3F008F4B27 /* XTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		CBFA3FA01F925BBC004E9E1D /* PersistenceController */ = {
+			isa = PBXGroup;
+			children = (
+				CBFA3FB91F925BDC004E9E1D /* PersistenceController.swift */,
+			);
+			name = PersistenceController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1179,10 +1194,12 @@
 				2166E3041D14AA7300470366 /* BaseTextStorage.m in Sources */,
 				21E1D9E81C8E212300283961 /* Annotation.swift in Sources */,
 				21AD8D071C8A48EA000A53F8 /* TextContainer.swift in Sources */,
+				CBFA3FBA1F925BDC004E9E1D /* PersistenceController.swift in Sources */,
 				2166E30A1D14B18E00470366 /* CanvasTextStorage.m in Sources */,
 				21DF7A3B1C8F9ADA00C17A62 /* Annotatable.swift in Sources */,
 				216459AA1CC1957C00033B7F /* TextController+MarkdownShortcuts.swift in Sources */,
 				2122BFD81CFE35EB00A038DE /* NSURL+CanvasText.swift in Sources */,
+				CB2B56001F95399900BD8630 /* Double+TimeInterval.swift in Sources */,
 				21E1D9E61C8DF6B800283961 /* Themeable.swift in Sources */,
 				21DF7A3D1C8F9B5200C17A62 /* UnorderedListItem+CanvasText.swift in Sources */,
 				21DF7A421C8FA08300C17A62 /* BlockquoteBorderView.swift in Sources */,
@@ -1234,6 +1251,7 @@
 				21D24D3C1D1207A600741038 /* Blockquote+CanvasText.swift in Sources */,
 				218944B81CFFA084003F743B /* Theme.swift in Sources */,
 				218944BD1CFFA08A003F743B /* Annotation.swift in Sources */,
+				CBFA3FBB1F925BDC004E9E1D /* PersistenceController.swift in Sources */,
 				218944C91CFFA090003F743B /* UserInterfaceSizeClass.swift in Sources */,
 				218944B21CFFA07E003F743B /* SelectionController.swift in Sources */,
 				218944C31CFFA08C003F743B /* ImagesController.swift in Sources */,
@@ -1349,7 +1367,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1402,7 +1420,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
