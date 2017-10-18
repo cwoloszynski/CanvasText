@@ -18,13 +18,14 @@ import CanvasNative
 import X
 
 typealias Style = (range: NSRange, attributes: Attributes)
-
+/* Removing this since we don't use this anymore
 public protocol TextControllerConnectionDelegate: class {
 	func textController(_ textController: TextController, willConnectWithWebView webView: WKWebView)
 	func textControllerDidConnect(_ textController: TextController)
 	func textController(_ textController: TextController, didReceiveWebErrorMessage errorMessage: String?, lineNumber: UInt?, columnNumber: UInt?)
 	func textController(_ textController: TextController, didDisconnectWithErrorMessage errorMessage: String?)
 }
+ */
 
 public protocol TextControllerDisplayDelegate: class {
 	func textController(_ textController: TextController, didUpdateSelectedRange selectedRange: NSRange)
@@ -46,7 +47,8 @@ public final class TextController: NSObject {
 
 	// MARK: - Properties
 
-	public weak var connectionDelegate: TextControllerConnectionDelegate?
+	// Removed the connectionDelegate since that is no longer used
+    //public weak var connectionDelegate: TextControllerConnectionDelegate?
 	public weak var displayDelegate: TextControllerDisplayDelegate?
 	public weak var annotationDelegate: TextControllerAnnotationDelegate?
 
@@ -187,9 +189,9 @@ public final class TextController: NSObject {
 	// MARK: - OT
 
 	public func connect() {
-		if connectionDelegate == nil {
+		/* if connectionDelegate == nil {
 			print("[TextController] WARNING: connectionDelegate is nil. If you don't add the web view from textController:willConnectWithWebView: to a view, Operation Transport won't work as expected.")
-		}
+		} */
 
 		let transportController = TransportController(/* serverURL: serverURL, accessToken: accessToken, */ projectID: projectID, canvasID: canvasID)
 		transportController.delegate = self
@@ -592,7 +594,7 @@ extension TextController: TransportControllerDelegate {
 
     // This probably needs to be replaced with a didConnect() and drop the web view stuff
 	public func transportController(_ controller: TransportController, willConnectWithWebView webView: WKWebView) {
-		connectionDelegate?.textController(self, willConnectWithWebView: webView)
+		// connectionDelegate?.textController(self, willConnectWithWebView: webView)
 	}
 
 	public func transportController(_ controller: TransportController, didReceiveSnapshot text: String) {
@@ -609,7 +611,7 @@ extension TextController: TransportControllerDelegate {
 		displayDelegate?.textControllerWillProcessRemoteEdit(self)
 		documentController.replaceCharactersInRange(bounds, withString: string)
         persistenceController.updateContents(contents: currentDocument.backingString)
-		connectionDelegate?.textControllerDidConnect(self)
+		// connectionDelegate?.textControllerDidConnect(self)
 		displayDelegate?.textControllerDidProcessRemoteEdit(self)
 		
 		applyStyles()
@@ -636,12 +638,12 @@ extension TextController: TransportControllerDelegate {
 
 	public func transportController(_ controller: TransportController, didReceiveWebErrorMessage errorMessage: String?, lineNumber: UInt?, columnNumber: UInt?) {
 		print("[TextController] TransportController error \(String(describing: errorMessage))")
-		connectionDelegate?.textController(self, didReceiveWebErrorMessage: errorMessage, lineNumber: lineNumber, columnNumber: columnNumber)
+		// connectionDelegate?.textController(self, didReceiveWebErrorMessage: errorMessage, lineNumber: lineNumber, columnNumber: columnNumber)
 	}
 
 	public func transportController(_ controller: TransportController, didDisconnectWithErrorMessage errorMessage: String?) {
 		print("[TextController] TransportController disconnect \(String(describing: errorMessage))")
-		connectionDelegate?.textController(self, didDisconnectWithErrorMessage: errorMessage)
+		// connectionDelegate?.textController(self, didDisconnectWithErrorMessage: errorMessage)
 	}
 }
 
