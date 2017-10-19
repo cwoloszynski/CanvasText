@@ -204,6 +204,9 @@ public final class TextController: NSObject {
 		transportController = nil
 	}
 	
+    public func saveDataOnViewWillDisappear() {
+        persistenceController.persistNow()
+    }
 	
 	// MARK: - Traits
 
@@ -728,10 +731,6 @@ extension TextController: DocumentControllerDelegate {
 		}
 	}
     
-    public func saveDataOnViewWillDisappear() {
-        persistenceController.persistNow()
-    }
-
 	fileprivate func refreshAnnotations() {
 		let blocks = currentDocument.blocks
 
