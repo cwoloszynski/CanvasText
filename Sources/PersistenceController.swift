@@ -111,6 +111,10 @@ class PersistenceController {
         }
     }
     
+    public func persistNow() {
+        timer?.fire()
+    }
+    
     private func persist(contents: String) {
         // Make sure we don't enter this more than once at a time
         writeQueue.sync {

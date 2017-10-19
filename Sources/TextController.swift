@@ -727,6 +727,10 @@ extension TextController: DocumentControllerDelegate {
 			self?.invalidateLayoutIfNeeded()
 		}
 	}
+    
+    public func saveDataOnViewWillDisappear() {
+        persistenceController.persistNow()
+    }
 
 	fileprivate func refreshAnnotations() {
 		let blocks = currentDocument.blocks
