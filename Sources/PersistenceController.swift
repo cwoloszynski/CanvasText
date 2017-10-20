@@ -36,7 +36,7 @@ class PersistenceController {
     
     static func projectDirectoryURL(_ projectId:String) -> URL {
         
-        let url = PersistenceController.rootDirectoryURL.appendingPathComponent("project-\(projectId)")
+        let url = PersistenceController.rootDirectoryURL.appendingPathComponent(projectId)
         let fileManager = FileManager.default
         
         if !fileManager.fileExists(atPath: url.path) {
@@ -54,7 +54,7 @@ class PersistenceController {
         self.projectId = projectId
         self.timer = nil
         self.persistInterval = 60.seconds
-        self.url = PersistenceController.projectDirectoryURL(projectId).appendingPathComponent("canvas-\(id)")
+        self.url = PersistenceController.projectDirectoryURL(projectId).appendingPathComponent(id)
         self.writeQueue = DispatchQueue(label: "PersistenceController") // Serial by default
     }
     
