@@ -356,9 +356,10 @@ public final class TextController: NSObject {
 	/// - returns: Optional presentation range of the expanded selection
 	fileprivate func unfoldableRange(presentationSelectedRange: NSRange) -> NSRange? {
 		let selectedRange: NSRange = {
-			var range = presentationSelectedRange
-			range.location = max(0, range.location - 1)
-			range.length += (presentationSelectedRange.location - range.location) + 1
+			let range = presentationSelectedRange
+            // FIXME:  I took out this range manipulation since I cannot figure out what it is targeted to do (but back up the selection to at least two characters, except at the start of the document
+            // range.location = max(0, range.location - 1)
+			// range.length += (presentationSelectedRange.location - range.location) + 1
 
 			let backingRanges = currentDocument.backingRanges(presentationRange: range)
 			return backingRanges.reduce(backingRanges[0]) { $0.union($1) }
