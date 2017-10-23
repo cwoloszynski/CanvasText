@@ -60,7 +60,7 @@ class LayoutManager: NSLayoutManager {
             // of nowFolding, but it did. I undid that... and I think I have the functionality I wanted now!
 			let updated = nowFolding.symmetricDifference(wasFolding)
 
-            print("unfoldedRange updates impact indiced \(updated.sorted())")
+            // print("unfoldedRange updates impact indiced \(updated.sorted())")
 			if updated.isEmpty {
 				return
 			}
