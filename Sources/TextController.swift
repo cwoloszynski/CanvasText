@@ -241,7 +241,7 @@ public final class TextController: NSObject {
 
 	// Update from Text View
 	public func setPresentationSelectedRange(_ range: NSRange?) {
-		setPresentationSelectedRange(range, updateTextView: true)
+		setPresentationSelectedRange(range, updateTextView: false)
 	}
 
 	// Update from Text Controller
@@ -253,14 +253,10 @@ public final class TextController: NSObject {
 		DispatchQueue.main.async { [weak self] in
 			self?.updateUnfoldIfNeeded()
 			self?.annotationsController.layoutAnnotations()
-    
-            // FIXME: Not sure if this should be inside the async or outside.
-            // Seems to have it outside may be source of issue
-            if updateTextView, let range = range {
-                if self != nil {
-                    self?.displayDelegate?.textController(self!, didUpdateSelectedRange: range)
-                }
-            }
+        }
+        
+        if updateTextView, let range = range {
+            displayDelegate?.textController(self, didUpdateSelectedRange: range)
         }
 	}
 	
