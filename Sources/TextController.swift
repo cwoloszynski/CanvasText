@@ -241,22 +241,27 @@ public final class TextController: NSObject {
 
 	// Update from Text View
 	public func setPresentationSelectedRange(_ range: NSRange?) {
-		setPresentationSelectedRange(range, updateTextView: false)
+		setPresentationSelectedRange(range, updateTextView: true)
 	}
 
 	// Update from Text Controller
 	func setPresentationSelectedRange(_ range: NSRange?, updateTextView: Bool) {
+        
 		presentationSelectedRange = range
-
+        
 		needsUnfoldUpdate = true
 		DispatchQueue.main.async { [weak self] in
 			self?.updateUnfoldIfNeeded()
 			self?.annotationsController.layoutAnnotations()
-		}
-
-		if updateTextView, let range = range {
-			displayDelegate?.textController(self, didUpdateSelectedRange: range)
-		}
+    
+            // FIXME: Not sure if this should be inside the async or outside.
+            // Seems to have it outside may be source of issue
+            if updateTextView, let range = range {
+                if self != nil {
+                    self?.displayDelegate?.textController(self!, didUpdateSelectedRange: range)
+                }
+            }
+        }
 	}
 	
 	
@@ -345,8 +350,10 @@ public final class TextController: NSObject {
 	fileprivate func updateUnfoldIfNeeded() {
 		guard needsUnfoldUpdate else { return }
 
-		_layoutManager.unfoldedRange = presentationSelectedRange.flatMap { unfoldableRange(presentationSelectedRange: $0) }
-
+        let unfoldedRange = presentationSelectedRange.flatMap {
+            unfoldableRange(presentationSelectedRange: $0)
+        }
+		_layoutManager.unfoldedRange = unfoldedRange
 		needsUnfoldUpdate = false
 	}
 
@@ -355,18 +362,19 @@ public final class TextController: NSObject {
 	/// - parameter displaySelection: Range of the selected text in the display text
 	/// - returns: Optional presentation range of the expanded selection
 	fileprivate func unfoldableRange(presentationSelectedRange: NSRange) -> NSRange? {
-		let selectedRange: NSRange = {
-			let range = presentationSelectedRange
             // FIXME:  I took out this range manipulation since I cannot figure out what it is targeted to do (but back up the selection to at least two characters, except at the start of the document
             // range.location = max(0, range.location - 1)
 			// range.length += (presentationSelectedRange.location - range.location) + 1
 
-			let backingRanges = currentDocument.backingRanges(presentationRange: range)
-			return backingRanges.reduce(backingRanges[0]) { $0.union($1) }
-		}()
+        // Replacing the function call in the initialization of the selectedRange
+         let backingRanges = currentDocument.backingRanges(presentationRange: presentationSelectedRange)
+         let selectedRange: NSRange = backingRanges.reduce(backingRanges[0]) { $0.union($1) }
 
-		let foldableNodes = currentDocument.nodesIn(backingRange: selectedRange).filter { $0 is Foldable }
-		var foldableRanges = ArraySlice<NSRange>(foldableNodes.map { currentDocument.presentationRange(backingRange: $0.range) })
+		let selectedNodes = currentDocument.nodesIn(backingRange: selectedRange)
+        let foldableNodes = selectedNodes.filter { $0 is Foldable }
+		var foldableRanges = ArraySlice<NSRange>(foldableNodes.map {
+            currentDocument.presentationRange(backingRange: $0.range)
+        })
 
 		guard var range = foldableRanges.popFirst() else { return nil }
 

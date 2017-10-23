@@ -39,20 +39,28 @@ class LayoutManager: NSLayoutManager {
 
 	var unfoldedRange: NSRange? {
 		didSet {
+            // Note:  foldedIndices excludes indices of things that are not foldable (like text)
+            // so the foldedIndices include only things like heading indices (Just the '# ' part), etc
             let wasFolding = oldValue.flatMap( { (range: NSRange) -> Set<Int> in
                 let indices = range.indices
                 var oldFoldedIndices = foldedIndices
                 oldFoldedIndices.subtract(indices)
                 return oldFoldedIndices
             }) ?? foldedIndices
+            // 'wasFolding' turns out to be the old folded indices *LESS* the ones we just added to the unfoldedRange.
             
             let nowFolding = unfoldedRange.flatMap(  { (range: NSRange) -> Set<Int> in
                 let indices = range.indices
-                foldedIndices.subtract(indices)
-                return foldedIndices
+                var newIndices = foldedIndices
+                newIndices.subtract(indices)
+                return newIndices
             }) ?? foldedIndices
+            // 'nowFolding' is the previous foldedIndices with tne new range removed.
+            // not sure if they meant to modify foldedIndices in the calculation
+            // of nowFolding, but it did. I undid that... and I think I have the functionality I wanted now!
 			let updated = nowFolding.symmetricDifference(wasFolding)
 
+            print("unfoldedRange updates impact indiced \(updated.sorted())")
 			if updated.isEmpty {
 				return
 			}
