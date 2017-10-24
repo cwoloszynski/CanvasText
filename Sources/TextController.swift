@@ -173,18 +173,25 @@ public final class TextController: NSObject {
 
 		documentController.delegate = self
         
-        // And initialize the document locally
+        
+	}
+
+    public func loadDocument() {
+        // Initialize the document locally
         let backingString = persistenceController.getContents()
         let bounds = NSRange(location: 0, length: (currentDocument.backingString as NSString).length)
-
+        
         setNeedsTitleUpdate()
         displayDelegate?.textControllerWillProcessRemoteEdit(self)
         documentController.replaceCharactersInRange(bounds, withString: backingString)
         displayDelegate?.textControllerDidProcessRemoteEdit(self)
+        
+        invalidateFonts()
+        
         applyStyles()
-        annotationsController.layoutAnnotations()        
-	}
-
+        
+        annotationsController.layoutAnnotations()
+    }
 
 	// MARK: - OT
 
