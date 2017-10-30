@@ -12,8 +12,8 @@ import CanvasNative
 
 class PersistenceController {
     
-    private var id: String
-    private var projectId: String
+    private var uuid: String
+    private var projectUuid: String
     private var timer: Timer?
     private var persistInterval: TimeInterval
     private let url: URL
@@ -49,12 +49,12 @@ class PersistenceController {
         return url
     }
     
-    init(id: String, projectId: String) {
-        self.id = id
-        self.projectId = projectId
+    init(uuid: String, projectUuid: String) {
+        self.uuid = uuid
+        self.projectUuid = projectUuid
         self.timer = nil
         self.persistInterval = 60.seconds
-        self.url = PersistenceController.projectDirectoryURL(projectId).appendingPathComponent(id)
+        self.url = PersistenceController.projectDirectoryURL(projectUuid).appendingPathComponent(uuid)
         self.writeQueue = DispatchQueue(label: "PersistenceController") // Serial by default
     }
     
@@ -80,7 +80,7 @@ class PersistenceController {
     
     private var  emptyContents: String {
         get {
-            let contents = "\(leadingNativePrefix)doc-heading\(trailingNativePrefix)Untitled"
+            let contents = "\(leadingNativePrefix)doc-heading-\(uuid)\(trailingNativePrefix)Untitled"
             return contents
         }
     }
