@@ -135,8 +135,8 @@ public final class TextController: NSObject {
 
 	let serverURL: URL
 	let accessToken: String
-	let projectID: String
-	let canvasID: String
+	let projectUUID: String
+	let canvasUUID: String
 
 	fileprivate var needsTitle = false
 	fileprivate var needsUnfoldUpdate = false
@@ -146,16 +146,16 @@ public final class TextController: NSObject {
 
 	// MARK: - Initializers
 
-	public init(serverURL: URL, accessToken: String, projectID: String, canvasID: String, theme: Theme) {
+	public init(serverURL: URL, accessToken: String, projectUUID: String, canvasUUID: String, theme: Theme) {
 		self.serverURL = serverURL
 		self.accessToken = accessToken
-		self.projectID = projectID
-		self.canvasID = canvasID
+		self.projectUUID = projectUUID
+		self.canvasUUID = canvasUUID
 		self.theme = theme
 		imagesController = ImagesController(theme: theme)
 
 		annotationsController = AnnotationsController(theme: theme)
-        self.persistenceController = PersistenceController(id: canvasID, projectId: projectID)
+        self.persistenceController = PersistenceController(uuid: canvasUUID, projectUuid: projectUUID)
         
 		super.init()
 		
@@ -200,7 +200,7 @@ public final class TextController: NSObject {
 			print("[TextController] WARNING: connectionDelegate is nil. If you don't add the web view from textController:willConnectWithWebView: to a view, Operation Transport won't work as expected.")
 		} */
 
-		let transportController = TransportController(/* serverURL: serverURL, accessToken: accessToken, */ projectID: projectID, canvasID: canvasID)
+		let transportController = TransportController(/* serverURL: serverURL, accessToken: accessToken, */ projectID: projectUUID, canvasID: canvasUUID)
 		transportController.delegate = self
 		transportController.connect()
 		self.transportController = transportController
@@ -618,7 +618,7 @@ extension TextController: TransportControllerDelegate {
 		// Ensure we have a valid document
 		var string = text
 		if string.isEmpty {
-			string = DocumentTitle.nativeRepresentation()  // Submit blank title name to remote server
+            string = DocumentTitle.nativeRepresentation("", uuid:"1234")  // Submit blank title name to remote server
 			submitOperations(backingRange: bounds, string: string)
 		}
 
