@@ -51,6 +51,16 @@ final class NumberView: ViewType, Annotation {
 	override func draw(_ rect: CGRect) {
 		guard let block = block as? OrderedListItem else { return }
 
+        #if os(OSX)
+            guard let context = NSGraphicsContext.currentContext()?.CGContext else { return }
+            
+            theme.backgroundColor.setFill()
+            CGContextFillRect(context, bounds)
+        #else
+            theme.backgroundColor.setFill()
+            UIRectFill(bounds)
+        #endif
+
 		let string: NSString = "\(block.number)." as NSString
 		let attributes = [
             NSAttributedStringKey.foregroundColor: theme.orderedListItemNumberColor,

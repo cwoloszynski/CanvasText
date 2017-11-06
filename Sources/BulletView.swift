@@ -80,6 +80,8 @@ final class BulletView: ViewType, Annotation {
 			CGContextFillRect(context, bounds)
 		#else
 			guard let context = UIGraphicsGetCurrentContext() else { return }
+            theme.backgroundColor.setFill()
+            UIRectFill(bounds)
 		#endif
 
 		theme.bulletColor.set()

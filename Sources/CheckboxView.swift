@@ -63,6 +63,16 @@ final class CheckboxView: UIButton, Annotation {
 	override func draw(_ rect: CGRect) {
 		guard let checklistItem = block as? ChecklistItem else { return }
 
+        #if os(OSX)
+            guard let context = NSGraphicsContext.currentContext()?.CGContext else { return }
+            
+            theme.backgroundColor.setFill()
+            CGContextFillRect(context, bounds)
+        #else
+            theme.backgroundColor.setFill()
+            UIRectFill(bounds)
+        #endif
+
 		let lineWidth: CGFloat = 2
 		let rect = checkboxRectForBounds(bounds: bounds).insetBy(dx: lineWidth / 2, dy: lineWidth / 2)
 
