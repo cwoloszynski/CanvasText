@@ -93,7 +93,7 @@ class LayoutManager: NSLayoutManager {
 	
 	// TODO: Get this from the theme and vary based on the block's font
 	fileprivate let lineSpacing: CGFloat = 3
-    fileprivate let lineHeight: CGFloat = 24
+    fileprivate let lineHeight: CGFloat = 22
     
 
 	// MARK: - Initializers
