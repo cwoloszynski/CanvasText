@@ -93,7 +93,8 @@ class LayoutManager: NSLayoutManager {
 	
 	// TODO: Get this from the theme and vary based on the block's font
 	fileprivate let lineSpacing: CGFloat = 3
-
+    fileprivate let lineHeight: CGFloat = 24
+    
 
 	// MARK: - Initializers
 
@@ -117,7 +118,7 @@ class LayoutManager: NSLayoutManager {
 
 	override var extraLineFragmentRect: CGRect {
 		var rect = super.extraLineFragmentRect
-		rect.size.height += lineSpacing
+		rect.size.height = lineHeight
 		return rect
 	}
 

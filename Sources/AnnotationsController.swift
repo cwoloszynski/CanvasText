@@ -178,8 +178,20 @@ final class AnnotationsController {
 			rect = usedRect
 			stop.pointee = true
 		}
-
-		return rect ?? layoutManager.extraLineFragmentRect
+        
+        // Look up the height of the previous line fragment so the next is consistent with the line above (NOT using the extraLineFragmentRect value)
+        /* if rect == nil {
+            let extendedRange = NSRange(location: glyphRange.location-1, length: glyphRange.length+1)
+            layoutManager.enumerateLineFragments(forGlyphRange: extendedRange) { _, usedRect, _, _, _ in
+                rect = usedRect
+            }
+        } */
+        
+        if rect == nil {
+            rect = layoutManager.extraLineFragmentRect
+        }
+        
+		return rect
 	}
 
 	private func rectsForPresentationRange(presentationRange: NSRange) -> [CGRect]? {
