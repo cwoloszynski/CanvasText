@@ -183,7 +183,7 @@ public final class TextController: NSObject {
         
         setNeedsTitleUpdate()
         displayDelegate?.textControllerWillProcessRemoteEdit(self)
-        documentController.replaceCharactersInRange(bounds, withString: backingString)
+        documentController.replaceCharactersInBackingRange(bounds, withString: backingString)
         displayDelegate?.textControllerDidProcessRemoteEdit(self)
         
         invalidateFonts()
@@ -624,7 +624,7 @@ extension TextController: TransportControllerDelegate {
 
 		setNeedsTitleUpdate()
 		displayDelegate?.textControllerWillProcessRemoteEdit(self)
-		documentController.replaceCharactersInRange(bounds, withString: string)
+		documentController.replaceCharactersInBackingRange(bounds, withString: string)
         persistenceController.updateContents(contents: currentDocument.backingString)
 		// connectionDelegate?.textControllerDidConnect(self)
 		displayDelegate?.textControllerDidProcessRemoteEdit(self)
@@ -640,11 +640,11 @@ extension TextController: TransportControllerDelegate {
 		switch operation {
 		case .insert(let location, let string):
 			let range = NSRange(location: Int(location), length: 0)
-			documentController.replaceCharactersInRange(range, withString: string)
+			documentController.replaceCharactersInBackingRange(range, withString: string)
 
 		case .remove(let location, let length):
 			let range = NSRange(location: Int(location), length: Int(length))
-			documentController.replaceCharactersInRange(range, withString: "")
+			documentController.replaceCharactersInBackingRange(range, withString: "")
 		}
 
         persistenceController.updateContents(contents: currentDocument.backingString)
@@ -674,18 +674,17 @@ extension TextController: DocumentControllerDelegate {
 		_textStorage.actuallyReplaceCharacters(in: range, with: string)
 		
 		// Calculate the line range
+        var changedRange = range
+        changedRange.length = string.count
 		let text = textStorage.string as NSString
-		var lineRange = range
-		lineRange.length = (string as NSString).length
-		lineRange = text.lineRange(for: lineRange)
-		
-		// Include the line before
-		if lineRange.location > 0 {
-			lineRange.location -= 1
-			lineRange.length += 1
-		}
-		
-		invalidatePresentationRange(lineRange)
+        var lineRange = text.lineRange(for: changedRange)
+        
+        // Include the line before, if possible to ajdust for any formatting changes
+        if lineRange.location > 0 { lineRange.location -= 1; lineRange.length += 1 }
+        
+        let finalRange = text.lineRange(for: lineRange) // Extend to full lines
+        
+		invalidatePresentationRange(finalRange)
 
 		var foldableRanges = [NSRange]()
 		controller.document.blocks.forEach { foldableRanges += stylesForBlock($0).1 }
@@ -704,17 +703,22 @@ extension TextController: DocumentControllerDelegate {
 		let (blockStyles, _) = stylesForBlock(block)
 		styles += blockStyles
 
+        // include the previous line, if there is one
 		var range = controller.document.presentationRange(block: block)
 		if range.location > 0 {
 			range.location -= 1
 			range.length += 1
 		}
 
-		if range.max < (controller.document.presentationString as NSString).length {
+        // inclue the subsequent line, if there is one
+        
+		if range.max < controller.document.presentationString.count {
 			range.length += 1
 		}
-
-		invalidatePresentationRange(range)
+        let text = controller.document.presentationString as NSString
+        let finalRange = text.lineRange(for: range)
+        
+		invalidatePresentationRange(finalRange)
 		
 		if let block = block as? Attachable, let style = attachmentStyle(block: block) {
 			styles.append(style)
@@ -728,6 +732,12 @@ extension TextController: DocumentControllerDelegate {
 	public func documentController(_ controller: DocumentController, didRemoveBlock block: BlockNode, atIndex index: Int) {
 		annotationsController.remove(block: block, index: index)
 
+        // Make sure the invalidatedRange is truncated if we remove some if it..
+        if let range = invalidPresentationRange, range.max > controller.document.presentationString.count {
+            let length = controller.document.presentationString.count - range.location
+            invalidPresentationRange = NSRange(location: range.location, length: length)
+            
+        }
 		if index == 0 {
 			setNeedsTitleUpdate()
 		}
@@ -738,6 +748,26 @@ extension TextController: DocumentControllerDelegate {
 		updateTitleIfNeeded(controller)
         persistenceController.updateContents(contents: currentDocument.backingString)
 		
+        // The old design in the code seemed to create styles
+        // dynamically.  However, with markdown processing,
+        // the style list would seem to get out of sync
+        // and we'd get errors when applying the styles.
+        // Those are applied when the 'invalidateLayoutIfNeeded()
+        // is called.
+        //
+        // So, instead we remove all the styles and then
+        // compute the styles for all the blocks in the document
+        // for now.  This may slow down the operation for large
+        // documents but let's get this working first and
+        // then focus on optimizing that later.
+        
+        styles.removeAll()
+        
+        for block in currentDocument.blocks {
+            let (blockStyles, _) = stylesForBlock(block)
+            styles += blockStyles
+        }
+        
 		DispatchQueue.main.async { [weak self] in
 			self?.invalidateLayoutIfNeeded()
 		}
@@ -784,6 +814,7 @@ extension TextController: AnnotationsControllerDelegate {
 
 extension TextController: CanvasTextStorageDelegate, NSTextStorageDelegate {
 	public func canvasTextStorage(_ textStorage: CanvasTextStorage, willReplaceCharactersIn range: NSRange, with string: String) {
+        
 		let document = currentDocument
 		var presentationRange = range
 
@@ -791,7 +822,9 @@ extension TextController: CanvasTextStorageDelegate, NSTextStorageDelegate {
 		var backingRange = backingRanges[0]
 		var replacement = string
 
-		// Return completion
+		// Return completion, update the backing range and replacement
+        // to reflect what we want to consider as having been typed
+        //
 		if string == "\n" {
 			let currentBlock = document.blockAt(backingLocation: backingRange.location)
 
@@ -819,6 +852,18 @@ extension TextController: CanvasTextStorageDelegate, NSTextStorageDelegate {
 					backingRange = block.range
 					replacement = HorizontalRule.nativeRepresentation() + "\n"
 				}
+        
+                else if string.hasPrefix("-[ ]") {
+                    let itemText = string.suffix(4)
+                    backingRange = block.range
+                    replacement = ChecklistItem.nativeRepresentation(indentation: .zero, state: .unchecked) + itemText + "\n"
+                }
+                
+                else if string.hasPrefix("-[x]") {
+                    let itemText = string.suffix(4)
+                    backingRange = block.range
+                    replacement = ChecklistItem.nativeRepresentation(indentation: .zero, state: .checked) + itemText + "\n"
+                }
 			}
 
 			// Continue the previous node
@@ -837,7 +882,7 @@ extension TextController: CanvasTextStorageDelegate, NSTextStorageDelegate {
 
 						// Make checkboxes unchecked by default
 						if let checklist = block as? ChecklistItem, checklist.state == .checked {
-							replacement = replacement.replacingOccurrences(of: "- [x] ", with: "- [ ] ")
+							replacement = replacement.replacingOccurrences(of: "-[x] ", with: "-[ ] ")
 						}
 					}
 				}
@@ -888,7 +933,7 @@ extension TextController: CanvasTextStorageDelegate, NSTextStorageDelegate {
 				offset += range.length
 			}
 		}
-
+        // Update backing length after replacement
 		backingRange.length = (replacement as NSString).length
 		presentationRange = document.presentationRange(backingRange: backingRange)
 		processMarkdownShortcuts(presentationRange)
@@ -920,7 +965,7 @@ extension TextController: CanvasTextStorageDelegate, NSTextStorageDelegate {
 	// by the text storage delegate or changes made to non-visible portions of the backing string (like block or
 	// indentation changes).
 	func edit(backingRange: NSRange, replacement: String) {
-		documentController.replaceCharactersInRange(backingRange, withString: replacement)
+        documentController.replaceCharactersInBackingRange(backingRange, withString: replacement)
 		submitOperations(backingRange: backingRange, string: replacement)
 	}
 }
