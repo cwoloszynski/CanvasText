@@ -108,6 +108,10 @@ extension Theme {
 				spacing.paddingBottom += padding
 			}
 
+            // Keep block quote lines together
+            if !blockquote.position.isBottom {
+                spacing.marginBottom = 4
+            }
 			spacing.paddingLeft = listIndentation
 
 			return spacing
