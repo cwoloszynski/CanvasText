@@ -252,7 +252,7 @@ public final class TextController: NSObject {
 	}
 
 	// Update from Text Controller
-	func setPresentationSelectedRange(_ range: NSRange?, updateTextView: Bool) {
+	public func setPresentationSelectedRange(_ range: NSRange?, updateTextView: Bool) {
         
 		presentationSelectedRange = range
         
