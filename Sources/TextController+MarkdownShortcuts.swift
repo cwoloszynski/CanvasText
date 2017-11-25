@@ -9,7 +9,7 @@
 import Foundation
 import CanvasNative
 
-private typealias Match = (replacement: String, location: Int)
+private typealias Match = (replacement: String, range: NSRange)
 
 extension TextController {
 	func processMarkdownShortcuts(_ presentationRange: NSRange) {
@@ -38,13 +38,13 @@ extension TextController {
 			if let node = node as? UnorderedListItem, let match = self?.prefixForUnorderedList(string, unorderedListItem: node) {
 				replacement = match.replacement
 				replacementRange = node.nativePrefixRange
-				replacementRange.length += match.location
+				replacementRange.length += match.range.location
 			} else if node is Paragraph, let match = self?.prefixForParagraph(string) {
 				replacement = match.replacement
-				replacementRange.length = match.location
-			} else {
-				return
-			}
+				replacementRange.length = match.range.location
+            } else {
+                return
+            }
 
 			// Replace
 			self?.edit(backingRange: replacementRange, replacement: replacement)
@@ -68,7 +68,7 @@ extension TextController {
 
 		// Checklist item
 		if let native = scanChecklist(scanner, unorderedListItem: unorderedListItem) {
-			return (native, scanner.scanLocation)
+            return (native, NSRange(location: scanner.scanLocation, length: 0)) // FIXME: Length is not accurate but is not used by caller
 		}
 
 		return nil
@@ -80,25 +80,25 @@ extension TextController {
 
 		// Blockquote
 		if let native = scanBlockquote(scanner) {
-			return (native, scanner.scanLocation)
+            return (native, NSRange(location: scanner.scanLocation, length: 0)) // FIXME: Length is not accurate but is not used by caller
 		}
 
 		// Checklist item
 		scanner.scanLocation = 0
 		if let native = scanChecklist(scanner) {
-			return (native, scanner.scanLocation)
+			return (native, NSRange(location: scanner.scanLocation, length: 0)) // FIXME: Length is not accurate but is not used by caller
 		}
 
 		// Unordered list
 		scanner.scanLocation = 0
 		if let native = scanUnorderedList(scanner) {
-			return (native, scanner.scanLocation)
+			return (native, NSRange(location: scanner.scanLocation, length: 0)) // FIXME: Length is not accurate but is not used by caller
 		}
 
 		// Ordered list
 		scanner.scanLocation = 0
 		if let native = scanOrderedList(scanner) {
-			return (native, scanner.scanLocation)
+			return (native, NSRange(location: scanner.scanLocation, length: 0)) // FIXME: Length is not accurate but is not used by caller
 		}
 
 
