@@ -430,6 +430,12 @@ public final class TextController: NSObject {
 			styles += innerStyles
 			foldableRanges += innerFoldableRanges
 		}
+        
+        if let attachment = block as? Attachable {
+            if let style = attachmentStyle(block: attachment) {
+                styles.append(style)
+            }
+        }
 
 		return (styles, foldableRanges)
 	}
@@ -821,7 +827,7 @@ extension TextController: CanvasTextStorageDelegate, NSTextStorageDelegate {
 		let backingRanges = document.backingRanges(presentationRange: presentationRange)
 		var backingRange = backingRanges[0]
 		var replacement = string
-
+        
 		// Return completion, update the backing range and replacement
         // to reflect what we want to consider as having been typed
         //
