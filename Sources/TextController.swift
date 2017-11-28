@@ -823,8 +823,13 @@ extension TextController: CanvasTextStorageDelegate, NSTextStorageDelegate {
         
 		let document = currentDocument
 		var presentationRange = range
+        
+        // If we are deleting (range of one character being replaced by an empty string), we need to compute the range and include
+        // the preamble. This allows us to delete a thing like a horizontal rule with a single delete keystroke
+        let isDeleting = (range.length == 1 && string.count == 0)
+        let includePreamble = isDeleting
 
-		let backingRanges = document.backingRanges(presentationRange: presentationRange)
+		let backingRanges = document.backingRanges(presentationRange: presentationRange, includePreamble: includePreamble)
 		var backingRange = backingRanges[0]
 		var replacement = string
         
@@ -914,9 +919,23 @@ extension TextController: CanvasTextStorageDelegate, NSTextStorageDelegate {
 					replacement = "\n" + replacement
 				}
 			}
-
-			// FIXME: Handle a replacement of the new line before the attachment
-		}
+        } /* else if replacement.isEmpty {
+            // Need to handle deletions of \n that need to revert a change of a markdown text (e.g. horizontal rule)
+            let removedString = (document.backingString as NSString).substring(with: backingRange)
+            if backingRange.length == 1 && removedString == "\n" {
+                if let block = document.blockAt(presentationLocation: range.location), let index = document.indexOf(block: block), index>0 {
+                    let preceeding = document.blocks[index-1]
+                    if let _ = preceeding as? HorizontalRule {
+                        let expandedCount = HorizontalRule.nativeRepresentation().count
+                        backingRange.location -= expandedCount
+                        backingRange.length += expandedCount
+                    }
+                }
+            }
+        } */
+            
+            
+        // FIXME: Handle a replacement of the new line before the attachment
 
 		edit(backingRange: backingRange, replacement: replacement)
 
