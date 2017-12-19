@@ -851,7 +851,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0900;
+				LastUpgradeCheck = 0920;
 				ORGANIZATIONNAME = "Canvas Labs, Inc.";
 				TargetAttributes = {
 					211483C31C8A3034002CA206 = {
@@ -1372,7 +1372,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -1435,7 +1435,7 @@
 		211483D91C8A3034002CA206 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				APPLICATION_EXTENSION_API_ONLY = YES;
+				APPLICATION_EXTENSION_API_ONLY = NO;
 				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				DEFINES_MODULE = YES;
@@ -1454,7 +1454,6 @@
 				PRODUCT_NAME = CanvasText;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
@@ -1462,7 +1461,7 @@
 		211483DA1C8A3034002CA206 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				APPLICATION_EXTENSION_API_ONLY = YES;
+				APPLICATION_EXTENSION_API_ONLY = NO;
 				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				DEFINES_MODULE = YES;
