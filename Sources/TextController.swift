@@ -681,7 +681,7 @@ extension TextController: DocumentControllerDelegate {
 		
 		// Calculate the line range
         var changedRange = range
-        changedRange.length = string.count
+        changedRange.length = string.utf16.count
 		let text = textStorage.string as NSString
         var lineRange = text.lineRange(for: changedRange)
         
@@ -718,7 +718,7 @@ extension TextController: DocumentControllerDelegate {
 
         // inclue the subsequent line, if there is one
         
-		if range.max < controller.document.presentationString.count {
+		if range.max < controller.document.presentationString.utf16.count {
 			range.length += 1
 		}
         let text = controller.document.presentationString as NSString
@@ -739,8 +739,8 @@ extension TextController: DocumentControllerDelegate {
 		annotationsController.remove(block: block, index: index)
 
         // Make sure the invalidatedRange is truncated if we remove some if it..
-        if let range = invalidPresentationRange, range.max > controller.document.presentationString.count {
-            let length = controller.document.presentationString.count - range.location
+        if let range = invalidPresentationRange, range.max > controller.document.presentationString.utf16.count {
+            let length = controller.document.presentationString.utf16.count - range.location
             invalidPresentationRange = NSRange(location: range.location, length: length)
             
         }
@@ -822,16 +822,19 @@ extension TextController: CanvasTextStorageDelegate, NSTextStorageDelegate {
 	public func canvasTextStorage(_ textStorage: CanvasTextStorage, willReplaceCharactersIn range: NSRange, with string: String) {
         
 		let document = currentDocument
-		var presentationRange = range
-        
-        // If we are deleting (range of one character being replaced by an empty string), we need to compute the range and include
-        // the preamble. This allows us to delete a thing like a horizontal rule with a single delete keystroke
-        let isDeleting = (range.length == 1 && string.count == 0)
-        let includePreamble = isDeleting
-
-		let backingRanges = document.backingRanges(presentationRange: presentationRange, includePreamble: includePreamble)
-		var backingRange = backingRanges[0]
 		var replacement = string
+        var presentationRange = range
+        
+        // If we are deleting (range of one or more characters being replaced), we need to adjust the use of the rang
+        let isReplacing = (presentationRange.length > 0)
+
+		let backingRanges = document.backingRanges(presentationRange: presentationRange)
+		var backingRange = backingRanges[0]
+         
+         if !isReplacing && backingRange.length > 0 { // If this is an insertion, we skip the end of the range from the backingRange calculation.
+            backingRange.location += backingRange.length
+            backingRange.length = 0
+        } 
         
 		// Return completion, update the backing range and replacement
         // to reflect what we want to consider as having been typed
@@ -877,9 +880,9 @@ extension TextController: CanvasTextStorageDelegate, NSTextStorageDelegate {
                 }
 			}
 
-			// Continue the previous node
+			// Continue the previous node type on return when appropriate
 			else if let block = currentBlock as? ReturnCompletable {
-				// Bust out of completion
+				// Bust out of completion of this type of block
 				if block.visibleRange.length == 0 {
 					backingRange = block.range
 					replacement = ""
@@ -887,7 +890,7 @@ extension TextController: CanvasTextStorageDelegate, NSTextStorageDelegate {
 					// Keep selection in place
 					setPresentationSelectedRange(presentationSelectedRange, updateTextView: true)
 				} else {
-					// Complete the node
+					// Complete the node as another of the same, including indent level.
 					if let block = block as? NativePrefixable {
 						replacement += (document.backingString as NSString).substring(with: block.nativePrefixRange)
 
@@ -911,7 +914,7 @@ extension TextController: CanvasTextStorageDelegate, NSTextStorageDelegate {
 				}
 
 				// Add a new line after edits immediately before an Attachable {
-				else if range.location == presentationRange.location {
+				else if (range.location == presentationRange.location) && (range.location > 0) {
 					presentationRange.location -= 1
 					
 					// FIXME: Update to support inline markers
@@ -919,27 +922,45 @@ extension TextController: CanvasTextStorageDelegate, NSTextStorageDelegate {
 					replacement = "\n" + replacement
 				}
 			}
-        } /* else if replacement.isEmpty {
+        } else if replacement.isEmpty {
+            
+            // All of these changes should be handled in 'processTransformations()' and not here.
             // Need to handle deletions of \n that need to revert a change of a markdown text (e.g. horizontal rule)
-            let removedString = (document.backingString as NSString).substring(with: backingRange)
-            if backingRange.length == 1 && removedString == "\n" {
-                if let block = document.blockAt(presentationLocation: range.location), let index = document.indexOf(block: block), index>0 {
+            // When we 'eat' a newline and cause a horizontal rule to no longer be terminated,
+            // we need to expand the replacement to remove the rest of that horizontal rule and inject a '---' instead.
+            /* let removedString = (document.backingString as NSString).substring(with: backingRange)
+            if removedString == "\n" {
+                if let block = document.blockAt(presentationLocation: presentationRange.location), let index = document.indexOf(block: block), index>0 {
                     let preceeding = document.blocks[index-1]
-                    if let _ = preceeding as? HorizontalRule {
-                        let expandedCount = HorizontalRule.nativeRepresentation().count
+                    if let _ = block as? HorizontalRule, let _ = preceeding as? HorizontalRule {
+                        let expandedCount = 2*HorizontalRule.nativeRepresentation().utf16.count
                         backingRange.location -= expandedCount
                         backingRange.length += expandedCount
+                        replacement = "------"
+                    } else if let _ = preceeding as? HorizontalRule {
+                        let expandedCount = HorizontalRule.nativeRepresentation().utf16.count
+                        backingRange.location -= expandedCount
+                        backingRange.length += expandedCount
+                        replacement = "---"
                     }
                 }
-            }
-        } */
+            } else if removedString == HorizontalRule.nativeRepresentation() {
+                if document.backingString.utf16.count > backingRange.max {
+                    backingRange.length += 1 // Include the \n newline for removal (expand selection forward in this instance)
+                }
+            } */
+        }
             
             
-        // FIXME: Handle a replacement of the new line before the attachment
-
+        // At this point in processing the edits, the changes to the backing string
+        // should leave us with a backing store that represents the
+        // user's intents.  We need to execute those and then
+        // update the presentation string (and backing string) to reflect the
+        // knock-on effects of these edits.
+        
 		edit(backingRange: backingRange, replacement: replacement)
 
-		// Remove other backing ranges
+		// Remove other backing ranges beyond the first one in the extended range selected.
 		if backingRanges.count > 1 {
 			var ranges = backingRanges
 			ranges.remove(at: 0)
@@ -961,7 +982,9 @@ extension TextController: CanvasTextStorageDelegate, NSTextStorageDelegate {
         // Update backing length after replacement
 		backingRange.length = (replacement as NSString).length
 		presentationRange = document.presentationRange(backingRange: backingRange)
-		processMarkdownShortcuts(presentationRange)
+        
+        // Process any markdown transformations that this editing may have triggered
+		processTransformations(presentationRange)
 
 		// Handle selection when there is a user-driven replacement. This could definitely be cleaner.
 		DispatchQueue.main.async { [weak self] in
