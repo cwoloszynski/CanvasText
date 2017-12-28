@@ -133,8 +133,8 @@ public final class TextController: NSObject {
 		return documentController.document
 	}
 
-	let serverURL: URL
-	let accessToken: String
+	// let serverURL: URL
+	// let accessToken: String
 	let projectUUID: String
 	let canvasUUID: String
 
@@ -146,9 +146,9 @@ public final class TextController: NSObject {
 
 	// MARK: - Initializers
 
-	public init(serverURL: URL, accessToken: String, projectUUID: String, canvasUUID: String, theme: Theme) {
-		self.serverURL = serverURL
-		self.accessToken = accessToken
+	public init(projectUUID: String, canvasUUID: String, theme: Theme) {
+		// self.serverURL = serverURL
+		// self.accessToken = accessToken
 		self.projectUUID = projectUUID
 		self.canvasUUID = canvasUUID
 		self.theme = theme
