@@ -51,7 +51,7 @@ final class AnnotationsController {
 	weak var delegate: AnnotationsControllerDelegate?
 	weak var textController: TextController?
 
-	private var annotations = [Annotation?]()
+	internal var annotations = [Annotation?]()
 
 
 	// MARK: - Initializers

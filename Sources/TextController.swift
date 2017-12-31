@@ -57,12 +57,12 @@ public final class TextController: NSObject {
 		return _textStorage
 	}
 
-	fileprivate let _layoutManager = LayoutManager()
+	internal let _layoutManager = LayoutManager()
 	public var layoutManager: NSLayoutManager {
 		return _layoutManager
 	}
 
-	fileprivate let _textContainer = TextContainer()
+	internal let _textContainer = TextContainer()
 	public var textContainer: NSTextContainer {
 		return _textContainer
 	}
@@ -120,14 +120,14 @@ public final class TextController: NSObject {
 		}
 	#endif
 
-	fileprivate var transportController: TransportController?
-	fileprivate let annotationsController: AnnotationsController
+	internal var transportController: TransportController?
+	internal let annotationsController: AnnotationsController
 	
-	fileprivate let imagesController: ImagesController
+	internal let imagesController: ImagesController
 
-	fileprivate let documentController = DocumentController()
+	internal let documentController = DocumentController()
 
-    fileprivate var persistenceController: PersistenceController
+    internal var persistenceController: PersistenceController
     
 	public var currentDocument: Document {
 		return documentController.document
@@ -138,10 +138,10 @@ public final class TextController: NSObject {
 	let projectUUID: String
 	let canvasUUID: String
 
-	fileprivate var needsTitle = false
-	fileprivate var needsUnfoldUpdate = false
-	fileprivate var styles = [Style]()
-	fileprivate var invalidPresentationRange: NSRange?
+	internal var needsTitle = false
+	internal var needsUnfoldUpdate = false
+	internal var styles = [Style]()
+	internal var invalidPresentationRange: NSRange?
 
 
 	// MARK: - Initializers
@@ -886,7 +886,10 @@ extension TextController: CanvasTextStorageDelegate, NSTextStorageDelegate {
 				if block.visibleRange.length == 0 {
 					backingRange = block.range
 					replacement = ""
-
+                    // The annotations for this block (and the block itself) will get removed in
+                    // the processChange() after the computeChangeReplacingCharacters() call so no
+                    // other action required here.
+                    
 					// Keep selection in place
 					setPresentationSelectedRange(presentationSelectedRange, updateTextView: true)
 				} else {
@@ -985,7 +988,7 @@ extension TextController: CanvasTextStorageDelegate, NSTextStorageDelegate {
         
         // Process any markdown transformations that this editing may have triggered
 		processTransformations(presentationRange)
-
+        
 		// Handle selection when there is a user-driven replacement. This could definitely be cleaner.
 		DispatchQueue.main.async { [weak self] in
 			if var selection = self?.presentationSelectedRange, selection.length > 0 {
