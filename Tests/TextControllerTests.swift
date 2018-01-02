@@ -302,9 +302,67 @@ class TextControllerTests: XCTestCase {
         XCTAssert(type(of:textController.currentDocument.blocks[2]) == Paragraph.self)
         XCTAssert(type(of:textController.currentDocument.blocks[3]) == HorizontalRule.self)
         XCTAssert(type(of:textController.currentDocument.blocks[4]) == Paragraph.self)
-
     }
     
+    func testHorizontalRuleNewlineInsertionTransformation() throws {
+        
+        // This will create a document controller (and a persistence controller) and try to load the
+        // document.  Since the uuids are invalid, it will create a blank document.
+        let textController = try AssertNotNilAndUnwrap(self.textController)
+        textController.loadDocument()
+        
+        let startingPresentationString = textController.currentDocument.presentationString
+        XCTAssertEqual(startingPresentationString, "Untitled")
+        
+        let startingBackingString = textController.currentDocument.backingString
+        XCTAssert(startingBackingString.contains(textController.canvasUUID))
+        XCTAssert(startingBackingString.hasSuffix("Untitled"))
+        
+        let startingBlockCount = textController.currentDocument.blocks.count
+        XCTAssertEqual(startingBlockCount, 1) // DocTitle
+        
+        let startingAnnotationCount = textController.annotationsController.annotations.count
+        XCTAssertEqual(startingAnnotationCount, 1) // Not sure what the first annotation is, but it is in every document.
+        XCTAssertEqual(annotationCount(for: textController.annotationsController.annotations, ofType: BulletView.self), 0)
+        
+        let canvasTextStorage = try AssertNotNilAndUnwrap(textController.textStorage as? CanvasTextStorage)
+        
+        // Append a HR to the end of the canvas
+        var appendRange = NSRange(location: textController.currentDocument.presentationString.count, length: 0)
+        textController.canvasTextStorage(canvasTextStorage, willReplaceCharactersIn: appendRange, with: "\n---")
+        
+        // Confirm the '---' is still there until a `newline` is processed
+        XCTAssertEqual(textController.currentDocument.presentationString, "Untitled\n---")
+        XCTAssertEqual(textController.currentDocument.blocks.count, 2)
+        
+        // Convert the '---' into a Horizontal Rule with a 'newline' and confirm the '---' is removed and a new Body is created
+        
+        appendRange = NSRange(location: textController.currentDocument.presentationString.count, length: 0)
+        textController.canvasTextStorage(canvasTextStorage, willReplaceCharactersIn: appendRange, with: "\n")
+        
+        XCTAssertEqual(textController.currentDocument.presentationString, "Untitled\n\(HorizontalRule.attachmentCharacter)\n")
+        XCTAssertEqual(textController.currentDocument.blocks.count, 3)
+        
+        // Insert a return at the front of the HR
+        let location = try AssertNotNilAndUnwrap(textController.currentDocument.presentationString.index(of: HorizontalRule.attachmentCharacter))
+        appendRange = NSRange(location: location.encodedOffset, length: 0)
+        textController.canvasTextStorage(canvasTextStorage, willReplaceCharactersIn: appendRange, with: "\n")
+        
+        XCTAssertEqual(textController.currentDocument.presentationString, "Untitled\n\n\(HorizontalRule.attachmentCharacter)\n")
+        XCTAssertEqual(textController.currentDocument.blocks.count, 4)
+        let expectedBlockTypes: [BlockNode.Type] = [DocumentTitle.self, Paragraph.self, HorizontalRule.self, Paragraph.self]
+        let actualBlockTypes = blockTypes(for: textController.currentDocument)
+        XCTAssertEqual(actualBlockTypes.count, expectedBlockTypes.count)
+        for index in 0..<expectedBlockTypes.count {
+            XCTAssertEqual(String(describing: actualBlockTypes[index]),
+                           String(describing: expectedBlockTypes[index]))
+        }
+        
+        //XCTAssert(type(of:textController.currentDocument.blocks[1]) == Paragraph.self)
+        //XCTAssert(type(of:textController.currentDocument.blocks[2]) == HorizontalRule.self)
+        //XCTAssert(type(of:textController.currentDocument.blocks[3]) == Paragraph.self)
+    }
+
     // MARK: Support functions
     
     private func annotationCount(for annotations: [Annotation?], ofType targetType: ViewType.Type) -> Int {
@@ -315,6 +373,11 @@ class TextControllerTests: XCTestCase {
         return count
     }
     
+    private func blockTypes(for document: Document) -> [BlockNode.Type] {
+        return document.blocks.map({(block: BlockNode) -> BlockNode.Type in
+            return type(of: block)
+        })
+    }
     
 
 }

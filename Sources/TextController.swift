@@ -830,17 +830,25 @@ extension TextController: CanvasTextStorageDelegate, NSTextStorageDelegate {
 
 		let backingRanges = document.backingRanges(presentationRange: presentationRange)
 		var backingRange = backingRanges[0]
-         
-         if !isReplacing && backingRange.length > 0 { // If this is an insertion, we skip the end of the range from the backingRange calculation.
-            backingRange.location += backingRange.length
-            backingRange.length = 0
-        } 
+
+        let currentBlock = document.blockAt(backingLocation: backingRange.location)
+
+        // This block of code is ok when it is NOT an HR block and we want to press return to move the line down a bit.
+        //
+        if !isReplacing && backingRange.length > 0 {
+            if currentBlock is HorizontalRule {
+                backingRange.length = 0 // Truncate the selection to avoid deleting the HR
+            } else {
+                // If this is an insertion, we skip the end of the range from the backingRange calculation.
+                backingRange.location += backingRange.length
+                backingRange.length = 0
+            }
+        }
         
 		// Return completion, update the backing range and replacement
         // to reflect what we want to consider as having been typed
         //
 		if string == "\n" {
-			let currentBlock = document.blockAt(backingLocation: backingRange.location)
 
 			// Check inside paragraphs
 			if let block = currentBlock as? Paragraph {
@@ -884,6 +892,14 @@ extension TextController: CanvasTextStorageDelegate, NSTextStorageDelegate {
                     backingRange = block.range
                     replacement = ChecklistItem.nativeRepresentation(indentation: .zero, state: .checked) + itemText + "\n"
                 }
+                
+                /* else {
+                    // If this is an insertion, we skip the end of the range from the backingRange calculation.
+                    if !isReplacing && backingRange.length > 0 {
+                        backingRange.location += backingRange.length
+                        backingRange.length = 0
+                    }
+                } */
 			}
 
 			// Continue the previous node type on return when appropriate
