@@ -866,6 +866,12 @@ extension TextController: CanvasTextStorageDelegate, NSTextStorageDelegate {
 					backingRange = block.range
 					replacement = HorizontalRule.nativeRepresentation() + "\n"
 				}
+                    
+                else if string.hasSuffix("---") && (backingRange.location+3 == block.range.upperBound) {
+                    let prefixLength = backingRange.location - block.range.location
+                    replacement = string[string.startIndex..<string.index(string.startIndex, offsetBy: prefixLength)] + "\n" + HorizontalRule.nativeRepresentation()
+                    backingRange = block.range
+                }
         
                 else if string.hasPrefix("-[ ]") {
                     let itemText = string.suffix(4)

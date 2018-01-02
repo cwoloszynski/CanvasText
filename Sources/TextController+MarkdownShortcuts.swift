@@ -143,6 +143,14 @@ extension TextController {
         guard scanner.scanString(HorizontalRule.nativeRepresentation(), into: nil) else { return nil }
         return "---"
     }
+    
+    // Cannot simply see a "---" in a line without knowing if the line has a newline termination.  Since a user should be
+    // able to type '---' and not have this transform if they intended to type four or more dashes, etc....
+    //
+    // fileprivate func scanHorizontalRuleMarkdown(_ scanner: Scanner) -> String? {
+    //    guard scanner.scanString("---", into: nil) else { return nil }
+    //    return HorizontalRule.nativeRepresentation()
+    // }
 
 	fileprivate func scanChecklist(_ scanner: Scanner, unorderedListItem: UnorderedListItem? = nil) -> String? {
 		let indentation: Indentation
